@@ -4,10 +4,18 @@
  */
 package SituacaoPessoa;
 
+import InterfacePessoa.IMovable;
+import Pessoa.Pessoa;
+
 /**
  *
  * @author bruno
  */
-public class PessoaMalInformada {
+public class PessoaMalInformada extends Pessoa implements IMovable{
+
+    @Override
+    public void mover() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

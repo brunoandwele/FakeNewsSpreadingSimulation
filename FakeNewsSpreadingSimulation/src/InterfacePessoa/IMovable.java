@@ -10,4 +10,6 @@ package InterfacePessoa;
  */
 public interface IMovable {
     
+    public void mover();
+    
 }

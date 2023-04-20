@@ -10,4 +10,6 @@ package IAs;
  */
 public class IADestruidoraFakeNews {
     
+    private int numeroDaCor;
+    
 }

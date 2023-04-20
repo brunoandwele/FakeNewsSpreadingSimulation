@@ -10,4 +10,6 @@ package MeioComunicacaoConfiavel;
  */
 public class MeioComunicacaoConfiavel {
     
+    private int numeroDaCor;
+    
 }
