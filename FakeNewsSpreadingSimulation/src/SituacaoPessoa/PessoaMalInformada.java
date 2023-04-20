@@ -11,7 +11,7 @@ import Pessoa.Pessoa;
  *
  * @author bruno
  */
-public class PessoaMalInformada extends Pessoa implements IMovable{
+public class PessoaMalInformada extends Pessoa{
 
     @Override
     public void mover() {

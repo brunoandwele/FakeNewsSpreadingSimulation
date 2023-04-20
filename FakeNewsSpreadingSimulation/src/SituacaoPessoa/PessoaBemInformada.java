@@ -11,11 +11,11 @@ import Pessoa.Pessoa;
  *
  * @author bruno
  */
-public class PessoaBemInformada extends Pessoa implements IMovable {
+public class PessoaBemInformada extends Pessoa{
 
     @Override
     public void mover() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+ 
 }

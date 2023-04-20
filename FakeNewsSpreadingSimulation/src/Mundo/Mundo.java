@@ -4,6 +4,8 @@
  */
 package Mundo;
 
+import Pessoa.Pessoa;
+
 /**
  *
  * @author bruno
@@ -12,7 +14,9 @@ public class Mundo {
     
     public int[][] mapa = new int[30][60];
     
-    public void criaMundo(){
+    private Pessoa pessoa = new Pessoa();
+    
+    public void geraMatrizMundo(){
         
         // preenche a primeira e última coluna com 1
         for (int i = 0; i < 30; i++) {
@@ -34,12 +38,50 @@ public class Mundo {
         }
     }
     
-    public void desenhaMundo(){
-        //TODO criar funcao que imprime o mundo
+    public void desenhaMundoConsole(){
+        
+        for(int i = 0; i < mapa.length; i++){
+            for(int j = 0; j < mapa[i].length; j++){
+                
+                switch(mapa[i][j]){
+                    case 0:
+                        System.out.print(" ");
+                        break;
+                    case 1:
+                        System.out.print("\033[47m \033[0m");
+                        break;
+                    case 20:
+                        System.out.print("\033[44m \033[0m");
+                        break;
+                }
+                    
+            }
+            System.out.println();
+              
+        }
+        System.out.println();
+    }
+    
+    public void atualizaPosicaoPessoas(){
+        
+        pessoa.mover();
+        
+        int coordenadaAtualX = pessoa.getCoordenadaAtualX();
+        int coordenadaAtualY = pessoa.getCoordenadaAtualY();
+        
+        int coordenadaAntigaX = pessoa.getCoordenadaAntigaX();
+        int coordenadaAntigaY = pessoa.getCoordenadaAntigaY();
+        
+        int numeroDaCor = pessoa.getNumeroDaCor();
+        
+        mapa[coordenadaAtualY][coordenadaAtualX] = numeroDaCor;
+        mapa[coordenadaAntigaY][coordenadaAntigaX] = 0;
+        
     }
     
     public Mundo(){
-        this.criaMundo();
+        
+        this.geraMatrizMundo();
         
         //TODO adicionar todas as classes que irao compor a classe mundo
        
