@@ -6,6 +6,7 @@ package Mundo;
 
 import Pessoa.Pessoa;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -16,6 +17,14 @@ public class Mundo {
     public int[][] mapaFisico = new int[30][60];
     public String[][] mapaDados = new String[30][60];
     private ArrayList<Pessoa> pessoasDoMundo = new ArrayList<>();
+    
+    
+    
+    public Mundo(){
+        this.gerarMatrizMundo();    
+        this.gerarPessoasMundo();
+        //TODO adicionar todas as classes que irao compor a classe mundo  
+    }
     
     
     
@@ -46,12 +55,12 @@ public class Mundo {
         }
     }
     public void gerarPessoasMundo(){
-        for(int i = 0; i < 100; i++){
+        
+        for(int i = 0; i < 10; i++){
             Pessoa pessoaNova = new Pessoa();
             pessoasDoMundo.add(pessoaNova);
-            System.out.println("Pessoa add");
         }
-        System.out.println(pessoasDoMundo.size());
+        
     }
     public void desenhaMundoConsole(){
         
@@ -75,6 +84,7 @@ public class Mundo {
               
         }
         System.out.println();
+        
     }
     public void atualizaPessoasNosMapas(Pessoa pessoa){
         
@@ -93,6 +103,7 @@ public class Mundo {
         
         mapaDados[coordenadaAtualY][coordenadaAtualX] = whatsAppID;
         mapaDados[coordenadaAntigaY][coordenadaAntigaX] = "0";
+        
     }
     public void movimentaPessoas(){       
         
@@ -102,16 +113,52 @@ public class Mundo {
         }
         
     }
-    public void verificarEncontroDePessoas(Pessoa pessoa){
-  
-    }   
-    
+    public void verificarEncontroPessoas(){
+        
+        for(Pessoa pessoa:pessoasDoMundo){
+            
+            int coordenadaPessoaX = pessoa.getCoordenadaAtualX();
+            int coordenadaPessoaY = pessoa.getCoordenadaAtualY();
+            
+            int posicaoEsquerda = this.mapaFisico[coordenadaPessoaY][coordenadaPessoaX-1];
+            int posicaoDireita = this.mapaFisico[coordenadaPessoaY][coordenadaPessoaX+1];
+            int posicaoCima = this.mapaFisico[coordenadaPessoaY-1][coordenadaPessoaX];
+            int posicaoBaixo = this.mapaFisico[coordenadaPessoaY+1][coordenadaPessoaX];
+            
+            
+            
+            if(posicaoEsquerda != 0 && posicaoEsquerda != 1){
+                String whatsAppIDPessoaNova = this.mapaDados[coordenadaPessoaY][coordenadaPessoaX-1];
+                pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+                
+            }
+            if(posicaoDireita != 0 && posicaoDireita != 1){
+                String whatsAppIDPessoaNova = this.mapaDados[coordenadaPessoaY][coordenadaPessoaX+1];
+                pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+                
+            }
+            if(posicaoCima != 0 && posicaoCima != 1){
+                String whatsAppIDPessoaNova = this.mapaDados[coordenadaPessoaY-1][coordenadaPessoaX];
+                pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+
+            }
+            if(posicaoBaixo != 0 && posicaoBaixo != 1){
+                String whatsAppIDPessoaNova = this.mapaDados[coordenadaPessoaY+1][coordenadaPessoaX];
+                pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+
+            }
+          
+        }
+        
+    }
     public void animacaoMundo(){
         
         while(true){
             
             desenhaMundoConsole();
             movimentaPessoas();
+            verificarEncontroPessoas();
+            
             
             try{
                 Thread.sleep(500);
@@ -124,10 +171,5 @@ public class Mundo {
         
     }
     
-    public Mundo(){
-        this.gerarMatrizMundo();    
-        this.gerarPessoasMundo();
-        //TODO adicionar todas as classes que irao compor a classe mundo  
-    }
 
 }
