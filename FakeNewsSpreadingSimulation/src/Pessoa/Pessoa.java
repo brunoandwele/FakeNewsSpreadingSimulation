@@ -19,87 +19,6 @@ public class Pessoa implements IMovable{
     private ArrayList<String> contatos = new ArrayList<>();
     
     
-   
-    private int gerarDirecao(){
-       //gera a proxima direcao
-        
-       Random random = new Random();
-       int proximaDirecao = random.nextInt(4);
-       
-       return proximaDirecao;
-        
-    }
-    private void setCoordenadasIniciais(){
-        Random random = new Random();
-        coordenadaAtualX = random.nextInt(1,59);
-        coordenadaAtualY = random.nextInt(1,29);
-    }
-    private void salvarCoordenadasAnitgas(){
-       this.coordenadaAntigaX = this.coordenadaAtualX;
-       this.coordenadaAntigaY = this.coordenadaAtualY;
-    }
-    @Override
-    public void mover(){
-        
-       salvarCoordenadasAnitgas();
- 
-       int proximaDirecao = gerarDirecao();
-       
-       switch(proximaDirecao){
-           case 0 -> {
-               this.coordenadaAtualX -= 1;
-               
-               if (this.coordenadaAtualX < 1){
-                   this.coordenadaAtualX = 58;
-               }
-            }
-           case 1 -> {
-               this.coordenadaAtualX += 1;
-               
-               if (this.coordenadaAtualX > 58){
-                   this.coordenadaAtualX = 1;
-               }
-            }
-           case 2 -> {
-               this.coordenadaAtualY -= 1;
-               
-               if (this.coordenadaAtualY < 1){
-                   this.coordenadaAtualY = 28;
-               }
-            }
-           case 3 -> {
-               this.coordenadaAtualY += 1;
-               
-               if (this.coordenadaAtualY > 28){
-                   this.coordenadaAtualY = 1;
-               }
-            }
-               
-           default -> {
-               this.coordenadaAtualX = this.coordenadaAntigaX;
-               this.coordenadaAtualY = this.coordenadaAntigaY;
-            }
-       }
-        //Para esquerda
-        //Para direita
-        //Para cima
-        //Para baixo
-               
-    }
-
-    
-    
-    public Pessoa(){
-        
-        String numeroID = String.valueOf(baseWhatsAppID);
-        this.whatsAppID = "#" + numeroID;
-        
-        baseWhatsAppID++;
-        
-        setCoordenadasIniciais();
-        
-    }
-    
     public int getCoordenadaAtualX() {
         return coordenadaAtualX;
     }
@@ -122,4 +41,94 @@ public class Pessoa implements IMovable{
         return contatos;
     } 
 
+    public void setNumeroDaCor(int numeroDaCor) {
+        this.numeroDaCor = numeroDaCor;
+    }
+    
+    
+    public Pessoa(){
+        
+        String numeroID = String.valueOf(baseWhatsAppID);
+        this.whatsAppID = "#" + numeroID;
+        
+        baseWhatsAppID++;
+        
+        setCoordenadasIniciais();
+        
+    }
+   
+    
+    
+    private int gerarDirecao(){
+       //gera a proxima direcao
+        
+       Random random = new Random();
+       int proximaDirecao = random.nextInt(4);
+       
+       return proximaDirecao;
+        
+    }
+    private void setCoordenadasIniciais(){
+        Random random = new Random();
+        coordenadaAtualX = random.nextInt(1,59);
+        coordenadaAtualY = random.nextInt(1,29);
+    }
+    private void salvarCoordenadasAnitgas(){
+       this.coordenadaAntigaX = this.coordenadaAtualX;
+       this.coordenadaAntigaY = this.coordenadaAtualY;
+    }
+    public void adicionarWhatsApp(String whatsAppIdPessoaNova){
+        
+        if(contatos.contains(whatsAppIdPessoaNova) == false){
+            contatos.add(whatsAppIdPessoaNova);
+        }
+
+    }
+    @Override
+    public void mover(){
+        
+       salvarCoordenadasAnitgas();
+ 
+       int proximaDirecao = gerarDirecao();
+       
+       switch(proximaDirecao){
+           
+           //Para Esquerda
+           case 0 -> {
+               this.coordenadaAtualX -= 1;
+               
+               if (this.coordenadaAtualX < 1){
+                   this.coordenadaAtualX = 58;
+               }
+            }
+           //Para Direita
+           case 1 -> {
+               this.coordenadaAtualX += 1;
+               
+               if (this.coordenadaAtualX > 58){
+                   this.coordenadaAtualX = 1;
+               }
+            }
+           //Para Cima
+           case 2 -> {
+               this.coordenadaAtualY -= 1;
+               
+               if (this.coordenadaAtualY < 1){
+                   this.coordenadaAtualY = 28;
+               }
+            }
+           //Para Baixo
+           case 3 -> {
+               this.coordenadaAtualY += 1;
+               
+               if (this.coordenadaAtualY > 28){
+                   this.coordenadaAtualY = 1;
+               }
+            }
+           
+       }
+
+               
+    }
+  
 }
