@@ -39,10 +39,36 @@ public class Pessoa implements IMovable{
     }
     public ArrayList<String> getContatos() {
         return contatos;
-    } 
-
+    }   
     public void setNumeroDaCor(int numeroDaCor) {
         this.numeroDaCor = numeroDaCor;
+    }
+    public void setCoordenadaAtualX(int coordenadaAtualX) {
+        this.coordenadaAtualX = coordenadaAtualX;
+    }
+
+    public void setCoordenadaAtualY(int coordenadaAtualY) {
+        this.coordenadaAtualY = coordenadaAtualY;
+    }
+
+    public void setCoordenadaAntigaX(int coordenadaAntigaX) {
+        this.coordenadaAntigaX = coordenadaAntigaX;
+    }
+
+    public void setCoordenadaAntigaY(int coordenadaAntigaY) {
+        this.coordenadaAntigaY = coordenadaAntigaY;
+    }
+
+    public static void setBaseWhatsAppID(int baseWhatsAppID) {
+        Pessoa.baseWhatsAppID = baseWhatsAppID;
+    }
+
+    public void setWhatsAppID(String whatsAppID) {
+        this.whatsAppID = whatsAppID;
+    }
+
+    public void setContatos(ArrayList<String> contatos) {
+        this.contatos = contatos;
     }
     
     
@@ -57,8 +83,7 @@ public class Pessoa implements IMovable{
         
     }
    
-    
-    
+ 
     private int gerarDirecao(){
        //gera a proxima direcao
         
@@ -68,6 +93,13 @@ public class Pessoa implements IMovable{
        return proximaDirecao;
         
     }
+    public void adicionarWhatsApp(String whatsAppIdPessoaNova){
+        
+        if(contatos.contains(whatsAppIdPessoaNova) == false){
+            contatos.add(whatsAppIdPessoaNova);
+        }
+
+    }
     private void setCoordenadasIniciais(){
         Random random = new Random();
         coordenadaAtualX = random.nextInt(1,59);
@@ -76,13 +108,6 @@ public class Pessoa implements IMovable{
     private void salvarCoordenadasAnitgas(){
        this.coordenadaAntigaX = this.coordenadaAtualX;
        this.coordenadaAntigaY = this.coordenadaAtualY;
-    }
-    public void adicionarWhatsApp(String whatsAppIdPessoaNova){
-        
-        if(contatos.contains(whatsAppIdPessoaNova) == false){
-            contatos.add(whatsAppIdPessoaNova);
-        }
-
     }
     @Override
     public void mover(){
