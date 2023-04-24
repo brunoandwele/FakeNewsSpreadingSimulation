@@ -5,6 +5,7 @@
 package Mundo;
 
 import Pessoa.Pessoa;
+import SituacaoPessoa.PessoaBemInformada;
 import SituacaoPessoa.PessoaMalInformada;
 import java.util.ArrayList;
 
@@ -25,14 +26,8 @@ public class Mundo {
     public int[][] mapaFisico = new int[30][60];
     public String[][] mapaDados = new String[30][60];
     private ArrayList<Pessoa> pessoasDoMundo = new ArrayList<>();
-    
-
-    public ArrayList<Pessoa> getPessoasDoMundo() {
-        return pessoasDoMundo;
-    }
-    
-    
-    
+    private int countPessoasSemEfeitos, countPessoasBemInformadas, countPessoasMalInformadas, countPessoasImunes;
+    private double tempoTotal = 0;
     
     public Mundo(){
         this.gerarMatrizMundo();    
@@ -68,17 +63,6 @@ public class Mundo {
             }
         }
     }
-    public void gerarPessoasMundo(){
-       
-        int numeroDePessoas = 40;
-        
-        
-        for(int i = 0; i < numeroDePessoas; i++){
-            Pessoa pessoaNova = new Pessoa();
-            pessoasDoMundo.add(pessoaNova);
-        }
-        
-    }
     public void desenhaMundoConsole(){
         
         for(int i = 0; i < mapaFisico.length; i++){
@@ -89,16 +73,19 @@ public class Mundo {
                         System.out.print(" ");
                         break;
                     case 1:
-                        System.out.print("\033[47m \033[0m");
+                        System.out.print("\033[46m \033[0m");
                         break;
                     case 20:
                         System.out.print("\033[44m \033[0m");
                         break;
                     case 21:
-                        System.out.print("\033[45m \033[0m");
+                        System.out.print("\033[41m \033[0m");
                         break;
                     case 22:
-                        System.out.print("\033[46m \033[0m");
+                        System.out.print("\033[42m \033[0m");
+                        break;
+                    case 23:
+                        System.out.print("\033[43m \033[0m");
                         break;
                 }
                     
@@ -107,6 +94,39 @@ public class Mundo {
               
         }
         System.out.println();
+        
+    }
+    public void animacaoMundo(){
+        
+        while(true){
+            System.out.println("Tempo total: " + tempoTotal);
+            verificarQuantidadeDePessoasPorTipo();
+            desenhaMundoConsole();
+            movimentaPessoas();
+            verificarEncontroPessoas();
+            
+            
+            try{
+                Thread.sleep(500);
+                tempoTotal+=0.5;
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            
+        }
+        
+    }
+    
+    public void gerarPessoasMundo(){
+       
+        int numeroDePessoas = 50;
+        
+        
+        for(int i = 0; i < numeroDePessoas; i++){
+            Pessoa pessoaNova = new Pessoa();
+            pessoasDoMundo.add(pessoaNova);
+        }
         
     }
     public void atualizaPessoasNosMapas(Pessoa pessoa){
@@ -138,7 +158,15 @@ public class Mundo {
     }
     public void verificarEncontroPessoas(){
         
+        
+        
         for(Pessoa pessoa:pessoasDoMundo){
+            ArrayList<String> contatos = pessoa.getContatos();
+            
+            if (contatos.size()>1){
+                mandarRealNewsParaContatos(pessoa);
+            }
+            
             
             int coordenadaPessoaX = pessoa.getCoordenadaAtualX();
             int coordenadaPessoaY = pessoa.getCoordenadaAtualY();
@@ -174,52 +202,133 @@ public class Mundo {
         }
         
     }
-    public void animacaoMundo(){
+    public void transformarParaPessoaMalInformada(Pessoa pessoa){
         
-        while(true){
-            
-            desenhaMundoConsole();
-            movimentaPessoas();
-            verificarEncontroPessoas();
-            
-            
-            try{
-                Thread.sleep(500);
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-            
-        }
-        
+        int indicePessoa = pessoasDoMundo.indexOf(pessoa);
+        PessoaMalInformada pessoaMalInformada = new PessoaMalInformada(pessoa);            
+        pessoasDoMundo.set(indicePessoa,pessoaMalInformada);
+ 
     }
-    
+    public void transformarParaPessoaBemInformada(Pessoa pessoa){
+        
+        int indicePessoa = pessoasDoMundo.indexOf(pessoa);
+        PessoaBemInformada pessoaBemInformada = new PessoaBemInformada(pessoa);            
+        pessoasDoMundo.set(indicePessoa,pessoaBemInformada);
+ 
+    }
+    public void mandarRealNewsParaContatos(Pessoa pessoaSabia){
+
+        ArrayList<String> contatosPessoaSabia = pessoaSabia.getContatos();
+
+        for (String contatoRegistrado:contatosPessoaSabia){
+            
+            for(Pessoa possivelContato:pessoasDoMundo){
+                
+                String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
+                
+                if(whatsAppIDPossivelContato.equals(contatoRegistrado)){        
+                    transformarParaPessoaBemInformada(possivelContato);
+                }
+            }  
+        }
+        transformarParaPessoaBemInformada(pessoaSabia);
+    }
     public void mandarFakeNewsParaContatos(Pessoa pessoaInfectada){
-        
+
         ArrayList<String> contatosPessoaInfectada = pessoaInfectada.getContatos();
-        
+
         for (String contatoRegistrado:contatosPessoaInfectada){
             
             for(Pessoa possivelContato:pessoasDoMundo){
+                
+                String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
+                
+                if(whatsAppIDPossivelContato.equals(contatoRegistrado)){        
+                    transformarParaPessoaMalInformada(possivelContato);
+                }
+            }  
+        }
+        transformarParaPessoaMalInformada(pessoaInfectada);
+    }
+    public void mandarFakeNewsParaContatosComentado(Pessoa pessoaInfectada){
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        ArrayList<String> contatosPessoaInfectada = pessoaInfectada.getContatos();
+        String id = pessoaInfectada.getWhatsAppID();
+        System.out.println("Contatos - "+ id);
+        for(String contato1:contatosPessoaInfectada){
+            System.out.print(contato1 +" / ");
+        }
+        System.out.println("");
+        System.out.println("##########");
+        for (String contatoRegistrado:contatosPessoaInfectada){
+            
+            for(Pessoa possivelContato:pessoasDoMundo){
+                
                 String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
                 
                 if(whatsAppIDPossivelContato.equals(contatoRegistrado)){
-
-                    int indicePessoaEcontrada = pessoasDoMundo.indexOf(possivelContato);
-                    
-                    PessoaMalInformada contatoMalInformado = new PessoaMalInformada(possivelContato);
-                    
-                    pessoasDoMundo.set(indicePessoaEcontrada,contatoMalInformado);   
+                    System.out.println("Comparacao: " + whatsAppIDPossivelContato + "//" + contatoRegistrado);
+                    int index2 = pessoasDoMundo.indexOf(possivelContato);
+                    String id2 = pessoasDoMundo.get(index2).getWhatsAppID();
+                    System.out.println("Classe do contato anterior a transformacao: " + id2+ " - " + pessoasDoMundo.get(index2).getClass());
+                    transformarParaPessoaMalInformada(possivelContato);
+                    ArrayList<String> contatos2 = pessoasDoMundo.get(index2).getContatos();
+                    id2 = pessoasDoMundo.get(index2).getWhatsAppID();
+                    System.out.println("Classe do contato apos transformacao: " + id2+ " - " + pessoasDoMundo.get(index2).getClass());
+                    System.out.println("Contatos - " + id2);
+                    for(String contato2:contatos2){
+                        System.out.print(contato2 +" / ");
+                    }
+                    System.out.println("");
+                    System.out.println("-----------");
                 }
             }  
         }
         
-        int indicePessoaInfectada = pessoasDoMundo.indexOf(pessoaInfectada);
-        PessoaMalInformada PessoaInfectadaMalInformada = new PessoaMalInformada(pessoaInfectada);
-                    
-        pessoasDoMundo.set(indicePessoaInfectada,PessoaInfectadaMalInformada);
+        int index1 = pessoasDoMundo.indexOf(pessoaInfectada);
+        System.out.println("Classe da pessoa infectada anterior a transformacao: " + pessoasDoMundo.get(index1).getClass());
+        transformarParaPessoaMalInformada(pessoaInfectada);
         
+        System.out.println("Classe da pessoa infectada apos transformacao: " + pessoasDoMundo.get(index1).getClass());
+        String teste = ip.nextLine();
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
-    
+    public void verificarQuantidadeDePessoasPorTipo(){
+        
+        countPessoasSemEfeitos = 0;
+        countPessoasMalInformadas = 0; 
+        countPessoasBemInformadas = 0;
+        countPessoasImunes = 0;
+        
+        for(Pessoa pessoa: pessoasDoMundo){
+            
+            int numeroDaCor = pessoa.getNumeroDaCor();
+                
+                switch(numeroDaCor){
+                    
+                    case 20 -> {
+                        countPessoasSemEfeitos++;
+                    }
+                    case 21 -> {
+                        countPessoasMalInformadas++;
+                    }
+                    case 22 -> {
+                        countPessoasBemInformadas++;
+                    }
+                    case 23 -> {
+                        countPessoasImunes++;
+                    }   
+                }
+                
+            
+        }
+        System.out.println("###########################");
+        System.out.println("Pessoas sem efeitos:    " + countPessoasSemEfeitos);
+        System.out.println("Pessoas MAL informadas: " + countPessoasMalInformadas);
+        System.out.println("Pessoas BEM informadas: " + countPessoasBemInformadas);
+        System.out.println("Pessoas imunes:         " + countPessoasImunes);
+        System.out.println("###########################");
+        System.out.println("");
+    }
 
 }
