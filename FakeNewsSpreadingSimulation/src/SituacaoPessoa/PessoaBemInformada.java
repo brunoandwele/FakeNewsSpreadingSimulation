@@ -26,4 +26,11 @@ public class PessoaBemInformada extends Pessoa{
         
         this.setNumeroDaCor(22); // Define o número da cor para 22
     }
+    
+    public PessoaBemInformada(){
+        super();
+        this.setNumeroDaCor(22);// Define o número da cor para 22
+    }
+    
+    
 }
