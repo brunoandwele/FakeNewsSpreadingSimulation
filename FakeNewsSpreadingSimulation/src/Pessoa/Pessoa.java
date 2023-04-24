@@ -13,7 +13,7 @@ public class Pessoa implements IMovable{
   
     private int coordenadaAtualX, coordenadaAtualY;
     private int coordenadaAntigaX, coordenadaAntigaY;
-    private int numeroDaCor = 20; //Pessoa sem efeitos (cor default)
+    private int numeroDaCor;
     private static int baseWhatsAppID = 0;
     private String whatsAppID;
     private ArrayList<String> contatos = new ArrayList<>();
@@ -80,7 +80,7 @@ public class Pessoa implements IMovable{
         baseWhatsAppID++;
         
         setCoordenadasIniciais();
-        
+        this.numeroDaCor = 20; //Pessoa sem efeitos (cor default -> 20)
     }
    
  
@@ -93,13 +93,6 @@ public class Pessoa implements IMovable{
        return proximaDirecao;
         
     }
-    public void adicionarWhatsApp(String whatsAppIdPessoaNova){
-        
-        if(contatos.contains(whatsAppIdPessoaNova) == false){
-            contatos.add(whatsAppIdPessoaNova);
-        }
-
-    }
     private void setCoordenadasIniciais(){
         Random random = new Random();
         coordenadaAtualX = random.nextInt(1,59);
@@ -108,6 +101,13 @@ public class Pessoa implements IMovable{
     private void salvarCoordenadasAnitgas(){
        this.coordenadaAntigaX = this.coordenadaAtualX;
        this.coordenadaAntigaY = this.coordenadaAtualY;
+    }
+    public void adicionarWhatsApp(String whatsAppIdPessoaNova){
+        
+        if(contatos.contains(whatsAppIdPessoaNova) == false){
+            contatos.add(whatsAppIdPessoaNova);
+        }
+
     }
     @Override
     public void mover(){
