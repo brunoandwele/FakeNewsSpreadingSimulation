@@ -24,15 +24,15 @@ public class Mundo {
     //Apagar depois
     
     public int[][] mapaFisico = new int[30][60];
-    public String[][] mapaDados = new String[30][60];
+    public ArrayList<ArrayList<ArrayList<String>>> mapaDados;
     private ArrayList<Pessoa> pessoasDoMundo = new ArrayList<>();
     private int countPessoasSemEfeitos, countPessoasBemInformadas, countPessoasMalInformadas, countPessoasImunes;
     private double tempoTotal = 0;
     
     public Mundo(){
-        this.gerarMatrizMundo();    
+        this.gerarMatrizMundo();   
+        this.gerarMatrizDados();
         this.gerarPessoasMundo();
-        //TODO adicionar todas as classes que irao compor a classe mundo  
     }
     
     
@@ -43,25 +43,80 @@ public class Mundo {
         for (int i = 0; i < 30; i++) {
             mapaFisico[i][0] = 1;
             mapaFisico[i][59] = 1;
-            mapaDados[i][0] = "1";
-            mapaDados[i][59] = "1";
+//            mapaDados[i][0] = "1";
+//            mapaDados[i][59] = "1";
         }
 
         // preenche a primeira e última linha com 1
         for (int i = 0; i < 60; i++) {
             mapaFisico[0][i] = 1;
             mapaFisico[29][i] = 1;
-            mapaDados[0][i] = "1";
-            mapaDados[29][i] = "1";
+//            mapaDados[0][i] = "1";
+//            mapaDados[29][i] = "1";
         }
 
         // preenche o interior da matriz com 0
         for (int i = 1; i < 29; i++) {
             for (int j = 1; j < 59; j++) {
                 mapaFisico[i][j] = 0;
-                mapaDados[i][j] = "0";
+//                mapaDados[i][j] = "0";
             }
         }
+    }
+    public void gerarMatrizDados(){
+        
+        mapaDados = new ArrayList<>();
+        
+        for(int i = 0;i < 30; i++){
+            
+            mapaDados.add(new ArrayList<ArrayList<String>>());
+            
+            for(int j = 0;j < 60; j++){
+                mapaDados.get(i).add(new ArrayList<String>());
+            }
+            
+            mapaDados.get(i).trimToSize();
+        }
+        
+        mapaDados.trimToSize();
+        
+    }
+    public void mostrarQuantidadeDePessoasPorTipo(){
+        
+        countPessoasSemEfeitos = 0;
+        countPessoasMalInformadas = 0; 
+        countPessoasBemInformadas = 0;
+        countPessoasImunes = 0;
+        
+        for(Pessoa pessoa: pessoasDoMundo){
+            
+            int numeroDaCor = pessoa.getNumeroDaCor();
+                
+                switch(numeroDaCor){
+                    
+                    case 20 -> {
+                        countPessoasSemEfeitos++;
+                    }
+                    case 21 -> {
+                        countPessoasMalInformadas++;
+                    }
+                    case 22 -> {
+                        countPessoasBemInformadas++;
+                    }
+                    case 23 -> {
+                        countPessoasImunes++;
+                    }   
+                }
+                
+            
+        }
+        System.out.println("###########################");
+        System.out.println("Pessoas sem efeitos:    " + countPessoasSemEfeitos);
+        System.out.println("Pessoas MAL informadas: " + countPessoasMalInformadas);
+        System.out.println("Pessoas BEM informadas: " + countPessoasBemInformadas);
+        System.out.println("Pessoas imunes:         " + countPessoasImunes);
+        System.out.println("###########################");
+        System.out.println("");
     }
     public void desenhaMundoConsole(){
         
@@ -100,22 +155,19 @@ public class Mundo {
         
         while(true){
             System.out.println("Tempo total: " + tempoTotal);
-            verificarQuantidadeDePessoasPorTipo();
+            mostrarQuantidadeDePessoasPorTipo();
             desenhaMundoConsole();
             movimentaPessoas();
             verificarEncontroPessoas();
-            
-            
+  
             try{
                 Thread.sleep(500);
                 tempoTotal+=0.5;
             }
             catch(Exception e){
                 e.printStackTrace();
-            }
-            
-        }
-        
+            }     
+        }   
     }
     
     public void gerarPessoasMundo(){
@@ -139,14 +191,17 @@ public class Mundo {
            
         int numeroDaCor = pessoa.getNumeroDaCor();
         
+        //Atualiza no mapa das cores (Matriz de inteiros)
         mapaFisico[coordenadaAtualY][coordenadaAtualX] = numeroDaCor;
         mapaFisico[coordenadaAntigaY][coordenadaAntigaX] = 0;
         
         String whatsAppID = pessoa.getWhatsAppID();
-        
-        mapaDados[coordenadaAtualY][coordenadaAtualX] = whatsAppID;
-        mapaDados[coordenadaAntigaY][coordenadaAntigaX] = "0";
-        
+              
+        //Atualiza no mapa dos Dados (Matriz de ArrayList de ArrayList de String)
+        mapaDados.get(coordenadaAtualY).get(coordenadaAtualX).add(whatsAppID);
+        mapaDados.get(coordenadaAntigaY).get(coordenadaAntigaX).remove(whatsAppID);
+
+    
     }
     public void movimentaPessoas(){       
         
@@ -157,14 +212,13 @@ public class Mundo {
         
     }
     public void verificarEncontroPessoas(){
-        
-        
-        
+   
         for(Pessoa pessoa:pessoasDoMundo){
+            
             ArrayList<String> contatos = pessoa.getContatos();
             
             if (contatos.size()>1){
-                mandarRealNewsParaContatos(pessoa);
+                mandarFakeNewsParaContatosComentado(pessoa);
             }
             
             
@@ -176,27 +230,47 @@ public class Mundo {
             int posicaoCima = this.mapaFisico[coordenadaPessoaY-1][coordenadaPessoaX];
             int posicaoBaixo = this.mapaFisico[coordenadaPessoaY+1][coordenadaPessoaX];
             
-            
+            ArrayList<String> pessoasNessaPosicao;
             
             if(posicaoEsquerda != 0 && posicaoEsquerda != 1){
-                String whatsAppIDPessoaNova = this.mapaDados[coordenadaPessoaY][coordenadaPessoaX-1];
-                pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);                
                 
+                pessoasNessaPosicao = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX-1);
+
+                for(String whatsAppPessoas:pessoasNessaPosicao){
+                    String whatsAppIDPessoaNova = whatsAppPessoas;
+                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);          
+                }
+ 
             }
             if(posicaoDireita != 0 && posicaoDireita != 1){
-                String whatsAppIDPessoaNova = this.mapaDados[coordenadaPessoaY][coordenadaPessoaX+1];
-                pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+                
+                pessoasNessaPosicao = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX+1);
+
+                for(String whatsAppPessoas:pessoasNessaPosicao){
+                    String whatsAppIDPessoaNova = whatsAppPessoas;
+                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+                }
               
             }
             if(posicaoCima != 0 && posicaoCima != 1){
-                String whatsAppIDPessoaNova = this.mapaDados[coordenadaPessoaY-1][coordenadaPessoaX];
-                pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
                 
+                pessoasNessaPosicao = mapaDados.get(coordenadaPessoaY-1).get(coordenadaPessoaX);
+
+                for(String whatsAppPessoas:pessoasNessaPosicao){
+                    String whatsAppIDPessoaNova = whatsAppPessoas;
+                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+                }
+  
             }
             if(posicaoBaixo != 0 && posicaoBaixo != 1){
-                String whatsAppIDPessoaNova = this.mapaDados[coordenadaPessoaY+1][coordenadaPessoaX];
-                pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
                 
+                pessoasNessaPosicao = mapaDados.get(coordenadaPessoaY+1).get(coordenadaPessoaX);
+
+                for(String whatsAppPessoas:pessoasNessaPosicao){
+                    String whatsAppIDPessoaNova = whatsAppPessoas;
+                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+                }
+              
             }
           
         }
@@ -292,43 +366,6 @@ public class Mundo {
         System.out.println("Classe da pessoa infectada apos transformacao: " + pessoasDoMundo.get(index1).getClass());
         String teste = ip.nextLine();
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    }
-    public void verificarQuantidadeDePessoasPorTipo(){
-        
-        countPessoasSemEfeitos = 0;
-        countPessoasMalInformadas = 0; 
-        countPessoasBemInformadas = 0;
-        countPessoasImunes = 0;
-        
-        for(Pessoa pessoa: pessoasDoMundo){
-            
-            int numeroDaCor = pessoa.getNumeroDaCor();
-                
-                switch(numeroDaCor){
-                    
-                    case 20 -> {
-                        countPessoasSemEfeitos++;
-                    }
-                    case 21 -> {
-                        countPessoasMalInformadas++;
-                    }
-                    case 22 -> {
-                        countPessoasBemInformadas++;
-                    }
-                    case 23 -> {
-                        countPessoasImunes++;
-                    }   
-                }
-                
-            
-        }
-        System.out.println("###########################");
-        System.out.println("Pessoas sem efeitos:    " + countPessoasSemEfeitos);
-        System.out.println("Pessoas MAL informadas: " + countPessoasMalInformadas);
-        System.out.println("Pessoas BEM informadas: " + countPessoasBemInformadas);
-        System.out.println("Pessoas imunes:         " + countPessoasImunes);
-        System.out.println("###########################");
-        System.out.println("");
     }
 
 }
