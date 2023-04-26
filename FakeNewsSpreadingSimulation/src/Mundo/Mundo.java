@@ -197,7 +197,7 @@ public class Mundo {
         
         String whatsAppID = pessoa.getWhatsAppID();
               
-        //Atualiza no mapa dos Dados (Matriz de ArrayList de ArrayList de String)
+        //Atualiza no mapa dos Dados (Matriz de ArrayList de ArrayList de ArrayList de String)
         mapaDados.get(coordenadaAtualY).get(coordenadaAtualX).add(whatsAppID);
         mapaDados.get(coordenadaAntigaY).get(coordenadaAntigaX).remove(whatsAppID);
 
@@ -218,7 +218,8 @@ public class Mundo {
             ArrayList<String> contatos = pessoa.getContatos();
             
             if (contatos.size()>1){
-                mandarFakeNewsParaContatosComentado(pessoa);
+//                mandarFakeNewsParaContatosComentado(pessoa);
+                mandarFakeNewsParaContatos(pessoa);
             }
             
             
@@ -230,13 +231,23 @@ public class Mundo {
             int posicaoCima = this.mapaFisico[coordenadaPessoaY-1][coordenadaPessoaX];
             int posicaoBaixo = this.mapaFisico[coordenadaPessoaY+1][coordenadaPessoaX];
             
-            ArrayList<String> pessoasNessaPosicao;
+            //Verifica se tem alguem na esquerda, direita, embaixo, em cima ou na mesma posicao
             
+            ArrayList<String> pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX);
+            
+            if(pessoasNessasCoordenadas.size()>1){
+                
+                for(String whatsAppPessoas:pessoasNessasCoordenadas){
+                    String whatsAppIDPessoaNova = whatsAppPessoas;
+                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);          
+                }
+ 
+            }
             if(posicaoEsquerda != 0 && posicaoEsquerda != 1){
                 
-                pessoasNessaPosicao = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX-1);
+                pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX-1);
 
-                for(String whatsAppPessoas:pessoasNessaPosicao){
+                for(String whatsAppPessoas:pessoasNessasCoordenadas){
                     String whatsAppIDPessoaNova = whatsAppPessoas;
                     pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);          
                 }
@@ -244,9 +255,9 @@ public class Mundo {
             }
             if(posicaoDireita != 0 && posicaoDireita != 1){
                 
-                pessoasNessaPosicao = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX+1);
+                pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX+1);
 
-                for(String whatsAppPessoas:pessoasNessaPosicao){
+                for(String whatsAppPessoas:pessoasNessasCoordenadas){
                     String whatsAppIDPessoaNova = whatsAppPessoas;
                     pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
                 }
@@ -254,9 +265,9 @@ public class Mundo {
             }
             if(posicaoCima != 0 && posicaoCima != 1){
                 
-                pessoasNessaPosicao = mapaDados.get(coordenadaPessoaY-1).get(coordenadaPessoaX);
+                pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY-1).get(coordenadaPessoaX);
 
-                for(String whatsAppPessoas:pessoasNessaPosicao){
+                for(String whatsAppPessoas:pessoasNessasCoordenadas){
                     String whatsAppIDPessoaNova = whatsAppPessoas;
                     pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
                 }
@@ -264,9 +275,9 @@ public class Mundo {
             }
             if(posicaoBaixo != 0 && posicaoBaixo != 1){
                 
-                pessoasNessaPosicao = mapaDados.get(coordenadaPessoaY+1).get(coordenadaPessoaX);
+                pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY+1).get(coordenadaPessoaX);
 
-                for(String whatsAppPessoas:pessoasNessaPosicao){
+                for(String whatsAppPessoas:pessoasNessasCoordenadas){
                     String whatsAppIDPessoaNova = whatsAppPessoas;
                     pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
                 }
