@@ -4,10 +4,32 @@
  */
 package SituacaoPessoa;
 
+import Pessoa.Pessoa;
+
 /**
  *
  * @author bruno
  */
-public class PessoaImune {
+public class PessoaImune extends Pessoa{
+
+    public PessoaImune(Pessoa pessoa) {
+        
+        super(); // Chama o construtor padrão de Pessoa
+        
+        this.setCoordenadaAtualX(pessoa.getCoordenadaAtualX());
+        this.setCoordenadaAtualY(pessoa.getCoordenadaAtualY());
+        this.setCoordenadaAntigaX(pessoa.getCoordenadaAntigaX());
+        this.setCoordenadaAntigaY(pessoa.getCoordenadaAntigaY());  
+        this.setWhatsAppID(pessoa.getWhatsAppID());
+        this.getContatos().addAll(pessoa.getContatos());
+        
+        this.setNumeroDaCor(23); // Define o número da cor para 23
+    }
     
+    public PessoaImune(){
+        super();
+        this.setNumeroDaCor(23);// Define o número da cor para 23
+ 
+    }
+   
 }
