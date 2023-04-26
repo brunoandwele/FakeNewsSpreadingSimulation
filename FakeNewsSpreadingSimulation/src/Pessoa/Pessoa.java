@@ -104,7 +104,7 @@ public class Pessoa implements IMovable{
     }
     public void adicionarWhatsApp(String whatsAppIdPessoaNova){
         
-        if(contatos.contains(whatsAppIdPessoaNova) == false){
+        if(contatos.contains(whatsAppIdPessoaNova) == false && whatsAppIdPessoaNova!=this.whatsAppID){
             contatos.add(whatsAppIdPessoaNova);
         }
 
