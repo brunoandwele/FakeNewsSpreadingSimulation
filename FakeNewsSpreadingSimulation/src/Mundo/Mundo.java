@@ -176,7 +176,7 @@ public class Mundo {
         
         
         for(int i = 0; i < numeroDePessoas; i++){
-            Pessoa pessoaNova = new Pessoa();
+            Pessoa pessoaNova = new Pessoa(true);
             pessoasDoMundo.add(pessoaNova);
         }
         
