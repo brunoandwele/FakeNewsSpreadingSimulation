@@ -73,13 +73,9 @@ public class Mundo {
             for(int j = xInicial; j < xFinal; j++){
                 
                 mapaFisico[i][j] = estrutura.getNumeroDaCor();
-
-                
-            }
             
-        }
-        
-        
+            }        
+        }        
     }
     
     public void gerarMatrizMundo(){
@@ -149,9 +145,7 @@ public class Mundo {
                     case 23 -> {
                         countPessoasImunes++;
                     }   
-                }
-                
-            
+                }       
         }
         System.out.println("###########################");
         System.out.println("Pessoas sem efeitos:    " + countPessoasSemEfeitos);
@@ -202,7 +196,7 @@ public class Mundo {
             desenhaMundoConsole();
             gerarMatrizMundo();
             movimentaPessoas();
-//            verificarEncontroPessoas();
+            verificarEncontroComObjetos();
   
             try{
                 Thread.sleep(500);
@@ -255,11 +249,13 @@ public class Mundo {
         
     }
     
-    public void verificarContato(){
+    public void verificarEncontroComObjetos(){
         
         for(Pessoa pessoa : pessoasDoMundo){
             verificarEncontroPessoas(pessoa);
-            verificarEncontroPessoas(pessoa);
+        }
+        for(Pessoa pessoa : pessoasDoMundo){
+            verificarEncontroEstruturas(pessoa);
         }
         
     }
@@ -319,11 +315,55 @@ public class Mundo {
             }
     }
     
-//    public void verificarEncontroEstruturas(Pessoa pessoa){
-//        
-//        
-//        
-//    }
+    public void verificarEncontroEstruturas(Pessoa pessoa){
+        
+        int coordenadasX = pessoa.getCoordenadaAtualX();
+        int coordenadasY = pessoa.getCoordenadaAtualY();
+        
+        int posicaoEsquerda = mapaFisico[coordenadasY][coordenadasX-1];
+        int posicaoDireita = mapaFisico[coordenadasY][coordenadasX+1];
+        int poaicaoCima = mapaFisico[coordenadasY-1][coordenadasX];
+        int posicaoBaixo = mapaFisico[coordenadasY+1][coordenadasX];
+        
+        if(posicaoEsquerda == 31){
+            mandarFakeNewsParaContatos(pessoa);
+        }
+        else if(posicaoEsquerda == 32){
+            mandarRealNewsParaContatos(pessoa);
+        }
+//        else if(posicaoEsquerda == 33){
+//            
+//        }
+        else if(posicaoDireita == 31){
+            mandarFakeNewsParaContatos(pessoa);
+        }
+        else if(posicaoDireita == 32){
+            mandarRealNewsParaContatos(pessoa);
+        }
+//        else if(posicaoDireita == 33){
+//            
+//        }
+        else if(poaicaoCima == 31){
+            mandarFakeNewsParaContatos(pessoa);
+        }
+        else if(poaicaoCima == 32){
+            mandarRealNewsParaContatos(pessoa);
+        }
+////        else if(poaicaoCima == 33){
+//            
+//        }
+        else if(posicaoBaixo == 31){
+            mandarFakeNewsParaContatos(pessoa);
+        }
+        else if(posicaoBaixo == 32){
+            mandarRealNewsParaContatos(pessoa);
+        }
+//        else if(posicaoBaixo == 33){
+//            
+//        }
+              
+        
+    }
     
     public void transformarParaPessoaMalInformada(Pessoa pessoa){
         
@@ -335,15 +375,15 @@ public class Mundo {
     public void transformarParaPessoaBemInformada(Pessoa pessoa){
         
         int indicePessoa = pessoasDoMundo.indexOf(pessoa);
-        PessoaBemInformada pessoaBemInformada = new PessoaBemInformada(pessoa);            
+        PessoaBemInformada pessoaBemInformada = new PessoaBemInformada(pessoa);
         pessoasDoMundo.set(indicePessoa,pessoaBemInformada);
  
     }
     public void mandarRealNewsParaContatos(Pessoa pessoaSabia){
 
-        ArrayList<String> contatosPessoaSabia = pessoaSabia.getContatos();
+        ArrayList<String> contatosPessoaInfectada = pessoaSabia.getContatos();
 
-        for (String contatoRegistrado:contatosPessoaSabia){
+        for (String contatoRegistrado:contatosPessoaInfectada){
             
             for(Pessoa possivelContato:pessoasDoMundo){
                 
