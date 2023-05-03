@@ -14,7 +14,7 @@ public class PessoaImune extends Pessoa{
 
     public PessoaImune(Pessoa pessoa) {
         
-        super(); // Chama o construtor padrão de Pessoa
+        super(false); // Chama o construtor padrão de Pessoa
         
         this.setCoordenadaAtualX(pessoa.getCoordenadaAtualX());
         this.setCoordenadaAtualY(pessoa.getCoordenadaAtualY());
@@ -27,7 +27,7 @@ public class PessoaImune extends Pessoa{
     }
     
     public PessoaImune(){
-        super();
+        super(true);
         this.setNumeroDaCor(23);// Define o número da cor para 23
  
     }

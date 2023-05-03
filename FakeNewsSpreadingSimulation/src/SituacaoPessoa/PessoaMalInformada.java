@@ -14,7 +14,7 @@ public class PessoaMalInformada extends Pessoa{
     
     public PessoaMalInformada(Pessoa pessoa) {
         
-        super(); // Chama o construtor padrão de Pessoa
+        super(false); // Chama o construtor padrão de Pessoa
         
         this.setCoordenadaAtualX(pessoa.getCoordenadaAtualX());
         this.setCoordenadaAtualY(pessoa.getCoordenadaAtualY());
@@ -27,7 +27,7 @@ public class PessoaMalInformada extends Pessoa{
     }
     
     public PessoaMalInformada(){
-        super();
+        super(true);
         this.setNumeroDaCor(21);// Define o número da cor para 22
     }
     

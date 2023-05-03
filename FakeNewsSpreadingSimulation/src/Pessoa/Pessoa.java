@@ -18,69 +18,18 @@ public class Pessoa implements IMovable{
     private String whatsAppID;
     private ArrayList<String> contatos = new ArrayList<>();
     
-    
-    public int getCoordenadaAtualX() {
-        return coordenadaAtualX;
-    }
-    public int getCoordenadaAtualY() {
-        return coordenadaAtualY;
-    }
-    public int getCoordenadaAntigaX() {
-        return coordenadaAntigaX;
-    }
-    public int getCoordenadaAntigaY() {
-        return coordenadaAntigaY;
-    }
-    public int getNumeroDaCor() {
-        return numeroDaCor;
-    }
-    public String getWhatsAppID() {
-        return whatsAppID;
-    }
-    public ArrayList<String> getContatos() {
-        return contatos;
-    }   
-    public void setNumeroDaCor(int numeroDaCor) {
-        this.numeroDaCor = numeroDaCor;
-    }
-    public void setCoordenadaAtualX(int coordenadaAtualX) {
-        this.coordenadaAtualX = coordenadaAtualX;
-    }
-
-    public void setCoordenadaAtualY(int coordenadaAtualY) {
-        this.coordenadaAtualY = coordenadaAtualY;
-    }
-
-    public void setCoordenadaAntigaX(int coordenadaAntigaX) {
-        this.coordenadaAntigaX = coordenadaAntigaX;
-    }
-
-    public void setCoordenadaAntigaY(int coordenadaAntigaY) {
-        this.coordenadaAntigaY = coordenadaAntigaY;
-    }
-
-    public static void setBaseWhatsAppID(int baseWhatsAppID) {
-        Pessoa.baseWhatsAppID = baseWhatsAppID;
-    }
-
-    public void setWhatsAppID(String whatsAppID) {
-        this.whatsAppID = whatsAppID;
-    }
-
-    public void setContatos(ArrayList<String> contatos) {
-        this.contatos = contatos;
-    }
-    
-    
-    public Pessoa(){
+    public Pessoa(boolean gerarNovasCoordenadas){
         
-        String numeroID = String.valueOf(baseWhatsAppID);
+        this.numeroDaCor = 20; //Pessoa sem efeitos (cor default -> 20)
+        
+        String numeroID = String.valueOf(baseWhatsAppID);      
         this.whatsAppID = "#" + numeroID;
-        
         baseWhatsAppID++;
         
-        setCoordenadasIniciais();
-        this.numeroDaCor = 20; //Pessoa sem efeitos (cor default -> 20)
+        if(gerarNovasCoordenadas){
+            setCoordenadasIniciais();
+        }
+ 
     }
    
  
@@ -155,5 +104,62 @@ public class Pessoa implements IMovable{
 
                
     }
+
+    public int getCoordenadaAtualX() {
+        return coordenadaAtualX;
+    }
+
+    public void setCoordenadaAtualX(int coordenadaAtualX) {
+        this.coordenadaAtualX = coordenadaAtualX;
+    }
+
+    public int getCoordenadaAtualY() {
+        return coordenadaAtualY;
+    }
+
+    public void setCoordenadaAtualY(int coordenadaAtualY) {
+        this.coordenadaAtualY = coordenadaAtualY;
+    }
+
+    public int getCoordenadaAntigaX() {
+        return coordenadaAntigaX;
+    }
+
+    public void setCoordenadaAntigaX(int coordenadaAntigaX) {
+        this.coordenadaAntigaX = coordenadaAntigaX;
+    }
+
+    public int getCoordenadaAntigaY() {
+        return coordenadaAntigaY;
+    }
+
+    public void setCoordenadaAntigaY(int coordenadaAntigaY) {
+        this.coordenadaAntigaY = coordenadaAntigaY;
+    }
+
+    public int getNumeroDaCor() {
+        return numeroDaCor;
+    }
+
+    public void setNumeroDaCor(int numeroDaCor) {
+        this.numeroDaCor = numeroDaCor;
+    }
+
+    public String getWhatsAppID() {
+        return whatsAppID;
+    }
+
+    public void setWhatsAppID(String whatsAppID) {
+        this.whatsAppID = whatsAppID;
+    }
+
+    public ArrayList<String> getContatos() {
+        return contatos;
+    }
+
+    public void setContatos(ArrayList<String> contatos) {
+        this.contatos = contatos;
+    }
+    
   
 }
