@@ -4,12 +4,22 @@
  */
 package IAs;
 
+import EstruturasMundo.EstruturasMundo;
+
 /**
  *
  * @author bruno
  */
-public class IAGeradoraFakeNews {
+public class IAGeradoraFakeNews extends EstruturasMundo{
     
-    private int numeroDaCor;
+    public IAGeradoraFakeNews(int coordenadasXInicial, int coordenadasXFinal, int coordenadasYInicial, int coordenadasYFinal) {
+        
+        super(coordenadasXInicial, coordenadasXFinal, coordenadasYInicial, coordenadasYFinal);
+        
+        this.setNumeroDaCor(30); //Numero da cor padrao para IAGeradoraFakeNews é 30
+    }
+    
+    
+    
     
 }

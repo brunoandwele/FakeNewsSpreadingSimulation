@@ -4,12 +4,20 @@
  */
 package MeioComunicacaoConfiavel;
 
+import EstruturasMundo.EstruturasMundo;
+
 /**
  *
  * @author bruno
  */
-public class MeioComunicacaoConfiavel {
-    
-    private int numeroDaCor;
+public class MeioComunicacaoConfiavel extends EstruturasMundo{
+
+    public MeioComunicacaoConfiavel(int coordenadasXInicial, int coordenadasXFinal, int coordenadasYInicial, int coordenadasYFinal) {
+        
+        super(coordenadasXInicial, coordenadasXFinal, coordenadasYInicial, coordenadasYFinal);
+        
+        this.setNumeroDaCor(32); //Numero da cor padrao para MeioComunicacaoConfiavel é 32
+        
+    }
     
 }
