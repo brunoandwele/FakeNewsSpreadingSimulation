@@ -216,7 +216,7 @@ public class Mundo {
     
     public void gerarPessoasMundo(){
        
-        int numeroDePessoas = 50;
+        int numeroDePessoas = 100;
         
         
         for(int i = 0; i < numeroDePessoas; i++){
@@ -261,64 +261,55 @@ public class Mundo {
             
             int coordenadaPessoaX = pessoa.getCoordenadaAtualX();
             int coordenadaPessoaY = pessoa.getCoordenadaAtualY();
-            
-            int posicaoEsquerda = this.mapaFisico[coordenadaPessoaY][coordenadaPessoaX-1];
-            int posicaoDireita = this.mapaFisico[coordenadaPessoaY][coordenadaPessoaX+1];
-            int posicaoCima = this.mapaFisico[coordenadaPessoaY-1][coordenadaPessoaX];
-            int posicaoBaixo = this.mapaFisico[coordenadaPessoaY+1][coordenadaPessoaX];
+            ArrayList<String> listaPessoasNessasCoordenadas;
             
             //Verifica se tem alguem na esquerda, direita, embaixo, em cima ou na mesma posicao
             
-            ArrayList<String> pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX);
-            
-            if(pessoasNessasCoordenadas.size()>1){
+            //Verifica na mesma posicao (coordenadas sao as mesmas)
+            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX);
+            if(listaPessoasNessasCoordenadas.size()>1){
                 
-                for(String whatsAppPessoas:pessoasNessasCoordenadas){
-                    String whatsAppIDPessoaNova = whatsAppPessoas;
-                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);          
+                for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
+                    pessoa.adicionarWhatsApp(whatsAppPessoa);   
                 }
  
             }
             
-            if(posicaoEsquerda == 20 || posicaoEsquerda == 21 || posicaoEsquerda == 22 || posicaoEsquerda == 23){
+            //Verifica na posicao a esquerda (coordenada X - 1)
+            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX-1);
+            if(listaPessoasNessasCoordenadas.size()>1){
                 
-                pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX-1);
-
-                for(String whatsAppPessoas:pessoasNessasCoordenadas){
-                    String whatsAppIDPessoaNova = whatsAppPessoas;
-                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);          
+                for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
+                    pessoa.adicionarWhatsApp(whatsAppPessoa);          
                 }
  
             }
-            if(posicaoDireita == 20 || posicaoDireita == 21 || posicaoDireita == 22 || posicaoDireita == 23){
+            
+            //Verifica na posicao a direita (coordenada X + 1)
+            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX+1);
+            if(listaPessoasNessasCoordenadas.size()>1){
                 
-                pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX+1);
-
-                for(String whatsAppPessoas:pessoasNessasCoordenadas){
-                    String whatsAppIDPessoaNova = whatsAppPessoas;
-                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+                for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
+                    pessoa.adicionarWhatsApp(whatsAppPessoa);          
                 }
-              
             }
-            if(posicaoCima == 20 || posicaoCima == 21 || posicaoCima == 22 || posicaoCima == 23){
+            
+            //Verifica na posicao a cima (coordenada Y - 1)
+            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY-1).get(coordenadaPessoaX);
+            if(listaPessoasNessasCoordenadas.size()>1){
                 
-                pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY-1).get(coordenadaPessoaX);
-
-                for(String whatsAppPessoas:pessoasNessasCoordenadas){
-                    String whatsAppIDPessoaNova = whatsAppPessoas;
-                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+                for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
+                    pessoa.adicionarWhatsApp(whatsAppPessoa);          
                 }
-  
             }
-            if(posicaoBaixo == 20 || posicaoBaixo == 21 || posicaoBaixo == 22 || posicaoBaixo == 23){
+            
+            //Verifica na posicao a baixo (coordenada Y + 1)
+            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY+1).get(coordenadaPessoaX);
+            if(listaPessoasNessasCoordenadas.size()>1){
                 
-                pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY+1).get(coordenadaPessoaX);
-
-                for(String whatsAppPessoas:pessoasNessasCoordenadas){
-                    String whatsAppIDPessoaNova = whatsAppPessoas;
-                    pessoa.adicionarWhatsApp(whatsAppIDPessoaNova);
+                for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
+                    pessoa.adicionarWhatsApp(whatsAppPessoa);          
                 }
-              
             }
           
         }
