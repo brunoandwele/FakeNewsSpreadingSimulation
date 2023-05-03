@@ -263,6 +263,10 @@ public class Mundo {
             int coordenadaPessoaY = pessoa.getCoordenadaAtualY();
             ArrayList<String> listaPessoasNessasCoordenadas;
             
+            if(pessoa.getContatos().size() >= 2){
+                mandarFakeNewsParaContatosComentado(pessoa);
+            }
+            
             //Verifica se tem alguem na esquerda, direita, embaixo, em cima ou na mesma posicao
             
             //Verifica na mesma posicao (coordenadas sao as mesmas)
@@ -277,7 +281,7 @@ public class Mundo {
             
             //Verifica na posicao a esquerda (coordenada X - 1)
             listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX-1);
-            if(listaPessoasNessasCoordenadas.size()>1){
+            if(listaPessoasNessasCoordenadas.size()>0){
                 
                 for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
                     pessoa.adicionarWhatsApp(whatsAppPessoa);          
@@ -287,7 +291,7 @@ public class Mundo {
             
             //Verifica na posicao a direita (coordenada X + 1)
             listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX+1);
-            if(listaPessoasNessasCoordenadas.size()>1){
+            if(listaPessoasNessasCoordenadas.size()>0){
                 
                 for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
                     pessoa.adicionarWhatsApp(whatsAppPessoa);          
@@ -296,7 +300,7 @@ public class Mundo {
             
             //Verifica na posicao a cima (coordenada Y - 1)
             listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY-1).get(coordenadaPessoaX);
-            if(listaPessoasNessasCoordenadas.size()>1){
+            if(listaPessoasNessasCoordenadas.size()>0){
                 
                 for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
                     pessoa.adicionarWhatsApp(whatsAppPessoa);          
@@ -305,7 +309,7 @@ public class Mundo {
             
             //Verifica na posicao a baixo (coordenada Y + 1)
             listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY+1).get(coordenadaPessoaX);
-            if(listaPessoasNessasCoordenadas.size()>1){
+            if(listaPessoasNessasCoordenadas.size()>0){
                 
                 for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
                     pessoa.adicionarWhatsApp(whatsAppPessoa);          
