@@ -37,12 +37,11 @@ public class Mundo {
     private IADestruidoraFakeNews IADestruidoraFakeNews; 
     private MeioComunicacaoConfiavel MeioComunicacaoConfiavel;
     
-    public Mundo(){
-        this.gerarMatrizMundo();   
-        this.gerarMatrizDados();
+    public Mundo(){   
         this.gerarEstruturas();
         this.gerarPessoasMundo();
-        
+        this.gerarMatrizDados();  
+        this.gerarMatrizMundo();
         
     }
     
@@ -51,9 +50,7 @@ public class Mundo {
         IAGeradoraFakeNews = new IAGeradoraFakeNews(25,35,5,10);
         IADestruidoraFakeNews = new IADestruidoraFakeNews(10,20,20,25);
         MeioComunicacaoConfiavel = new MeioComunicacaoConfiavel(40,50,20,25);
-        
-        colocarEstruturasMatriz();
-        
+         
     }
     
     public void colocarEstruturasMatriz(){
@@ -105,6 +102,9 @@ public class Mundo {
                 mapaFisico[i][j] = 0;
             }
         }
+        
+        colocarEstruturasMatriz();
+        
     }
     public void gerarMatrizDados(){
         
@@ -200,9 +200,9 @@ public class Mundo {
             System.out.println("Tempo total: " + tempoTotal);
             mostrarQuantidadeDePessoasPorTipo();
             desenhaMundoConsole();
+            gerarMatrizMundo();
             movimentaPessoas();
-            colocarEstruturasMatriz();
-            verificarEncontroPessoas();
+//            verificarEncontroPessoas();
   
             try{
                 Thread.sleep(500);
@@ -237,7 +237,6 @@ public class Mundo {
         
         //Atualiza no mapa das cores (Matriz de inteiros)
         mapaFisico[coordenadaAtualY][coordenadaAtualX] = numeroDaCor;
-        mapaFisico[coordenadaAntigaY][coordenadaAntigaX] = 0;
         
         String whatsAppID = pessoa.getWhatsAppID();
               
@@ -255,17 +254,20 @@ public class Mundo {
         }
         
     }
-    public void verificarEncontroPessoas(){
-   
-        for(Pessoa pessoa:pessoasDoMundo){
-            
+    
+    public void verificarContato(){
+        
+        for(Pessoa pessoa : pessoasDoMundo){
+            verificarEncontroPessoas(pessoa);
+            verificarEncontroPessoas(pessoa);
+        }
+        
+    }
+    public void verificarEncontroPessoas(Pessoa pessoa){
+
             int coordenadaPessoaX = pessoa.getCoordenadaAtualX();
             int coordenadaPessoaY = pessoa.getCoordenadaAtualY();
             ArrayList<String> listaPessoasNessasCoordenadas;
-            
-            if(pessoa.getContatos().size() >= 2){
-                mandarFakeNewsParaContatosComentado(pessoa);
-            }
             
             //Verifica se tem alguem na esquerda, direita, embaixo, em cima ou na mesma posicao
             
@@ -315,10 +317,14 @@ public class Mundo {
                     pessoa.adicionarWhatsApp(whatsAppPessoa);          
                 }
             }
-          
-        }
-        
     }
+    
+//    public void verificarEncontroEstruturas(Pessoa pessoa){
+//        
+//        
+//        
+//    }
+    
     public void transformarParaPessoaMalInformada(Pessoa pessoa){
         
         int indicePessoa = pessoasDoMundo.indexOf(pessoa);
