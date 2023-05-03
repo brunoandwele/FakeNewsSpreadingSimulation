@@ -16,7 +16,7 @@ public class IAGeradoraFakeNews extends EstruturasMundo{
         
         super(coordenadasXInicial, coordenadasXFinal, coordenadasYInicial, coordenadasYFinal);
         
-        this.setNumeroDaCor(30); //Numero da cor padrao para IAGeradoraFakeNews é 30
+        this.setNumeroDaCor(31); //Numero da cor padrao para IAGeradoraFakeNews é 31
     }
     
     

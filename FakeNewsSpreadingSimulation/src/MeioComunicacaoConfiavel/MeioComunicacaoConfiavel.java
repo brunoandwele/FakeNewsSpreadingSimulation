@@ -16,7 +16,7 @@ public class MeioComunicacaoConfiavel extends EstruturasMundo{
         
         super(coordenadasXInicial, coordenadasXFinal, coordenadasYInicial, coordenadasYFinal);
         
-        this.setNumeroDaCor(32); //Numero da cor padrao para MeioComunicacaoConfiavel é 32
+        this.setNumeroDaCor(33); //Numero da cor padrao para MeioComunicacaoConfiavel é 33
         
     }
     

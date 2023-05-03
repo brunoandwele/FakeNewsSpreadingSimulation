@@ -16,7 +16,7 @@ public class IADestruidoraFakeNews extends EstruturasMundo{
         
         super(coordenadasXInicial, coordenadasXFinal, coordenadasYInicial, coordenadasYFinal);
         
-        this.setNumeroDaCor(31); //Numero da cor padrao para IADestruidoraFakeNews é 31
+        this.setNumeroDaCor(32); //Numero da cor padrao para IADestruidoraFakeNews é 32
     }
     
     

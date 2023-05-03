@@ -4,6 +4,10 @@
  */
 package Mundo;
 
+import EstruturasMundo.EstruturasMundo;
+import IAs.IADestruidoraFakeNews;
+import IAs.IAGeradoraFakeNews;
+import MeioComunicacaoConfiavel.MeioComunicacaoConfiavel;
 import Pessoa.Pessoa;
 import SituacaoPessoa.PessoaBemInformada;
 import SituacaoPessoa.PessoaMalInformada;
@@ -29,13 +33,57 @@ public class Mundo {
     private int countPessoasSemEfeitos, countPessoasBemInformadas, countPessoasMalInformadas, countPessoasImunes;
     private double tempoTotal = 0;
     
+    private IAGeradoraFakeNews IAGeradoraFakeNews;
+    private IADestruidoraFakeNews IADestruidoraFakeNews; 
+    private MeioComunicacaoConfiavel MeioComunicacaoConfiavel;
+    
     public Mundo(){
         this.gerarMatrizMundo();   
         this.gerarMatrizDados();
+        this.gerarEstruturas();
         this.gerarPessoasMundo();
+        
+        
     }
     
+    public void gerarEstruturas(){
+        
+        IAGeradoraFakeNews = new IAGeradoraFakeNews(25,35,5,10);
+        IADestruidoraFakeNews = new IADestruidoraFakeNews(10,20,20,25);
+        MeioComunicacaoConfiavel = new MeioComunicacaoConfiavel(40,50,20,25);
+        
+        colocarEstruturasMatriz();
+        
+    }
     
+    public void colocarEstruturasMatriz(){
+        InserirEstruturaMatriz(IAGeradoraFakeNews);
+        InserirEstruturaMatriz(IADestruidoraFakeNews);
+        InserirEstruturaMatriz(MeioComunicacaoConfiavel);
+        
+    }
+    
+    public void InserirEstruturaMatriz(EstruturasMundo estrutura){
+        
+        int xInicial = estrutura.getCoordenadasXInicial();
+        int xFinal = estrutura.getCoordenadasXFinal();
+        
+        int yInicial = estrutura.getCoordenadasYInicial();
+        int yFinal = estrutura.getCoordenadasYFinal();
+ 
+        for(int i = yInicial; i < yFinal; i++){
+
+            for(int j = xInicial; j < xFinal; j++){
+                
+                mapaFisico[i][j] = estrutura.getNumeroDaCor();
+
+                
+            }
+            
+        }
+        
+        
+    }
     
     public void gerarMatrizMundo(){
         
@@ -43,23 +91,18 @@ public class Mundo {
         for (int i = 0; i < 30; i++) {
             mapaFisico[i][0] = 1;
             mapaFisico[i][59] = 1;
-//            mapaDados[i][0] = "1";
-//            mapaDados[i][59] = "1";
         }
 
         // preenche a primeira e última linha com 1
         for (int i = 0; i < 60; i++) {
             mapaFisico[0][i] = 1;
             mapaFisico[29][i] = 1;
-//            mapaDados[0][i] = "1";
-//            mapaDados[29][i] = "1";
         }
 
         // preenche o interior da matriz com 0
         for (int i = 1; i < 29; i++) {
             for (int j = 1; j < 59; j++) {
                 mapaFisico[i][j] = 0;
-//                mapaDados[i][j] = "0";
             }
         }
     }
@@ -133,13 +176,13 @@ public class Mundo {
                     case 20:
                         System.out.print("\033[44m \033[0m");
                         break;
-                    case 21:
+                    case 21,31:
                         System.out.print("\033[41m \033[0m");
                         break;
-                    case 22:
+                    case 22,32:
                         System.out.print("\033[42m \033[0m");
                         break;
-                    case 23:
+                    case 23,33:
                         System.out.print("\033[43m \033[0m");
                         break;
                 }
@@ -158,6 +201,7 @@ public class Mundo {
             mostrarQuantidadeDePessoasPorTipo();
             desenhaMundoConsole();
             movimentaPessoas();
+            colocarEstruturasMatriz();
             verificarEncontroPessoas();
   
             try{
@@ -215,14 +259,6 @@ public class Mundo {
    
         for(Pessoa pessoa:pessoasDoMundo){
             
-            ArrayList<String> contatos = pessoa.getContatos();
-            
-            if (contatos.size()>1){
-//                mandarFakeNewsParaContatosComentado(pessoa);
-                mandarFakeNewsParaContatos(pessoa);
-            }
-            
-            
             int coordenadaPessoaX = pessoa.getCoordenadaAtualX();
             int coordenadaPessoaY = pessoa.getCoordenadaAtualY();
             
@@ -243,7 +279,8 @@ public class Mundo {
                 }
  
             }
-            if(posicaoEsquerda != 0 && posicaoEsquerda != 1){
+            
+            if(posicaoEsquerda == 20 || posicaoEsquerda == 21 || posicaoEsquerda == 22 || posicaoEsquerda == 23){
                 
                 pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX-1);
 
@@ -253,7 +290,7 @@ public class Mundo {
                 }
  
             }
-            if(posicaoDireita != 0 && posicaoDireita != 1){
+            if(posicaoDireita == 20 || posicaoDireita == 21 || posicaoDireita == 22 || posicaoDireita == 23){
                 
                 pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX+1);
 
@@ -263,7 +300,7 @@ public class Mundo {
                 }
               
             }
-            if(posicaoCima != 0 && posicaoCima != 1){
+            if(posicaoCima == 20 || posicaoCima == 21 || posicaoCima == 22 || posicaoCima == 23){
                 
                 pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY-1).get(coordenadaPessoaX);
 
@@ -273,7 +310,7 @@ public class Mundo {
                 }
   
             }
-            if(posicaoBaixo != 0 && posicaoBaixo != 1){
+            if(posicaoBaixo == 20 || posicaoBaixo == 21 || posicaoBaixo == 22 || posicaoBaixo == 23){
                 
                 pessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY+1).get(coordenadaPessoaX);
 
