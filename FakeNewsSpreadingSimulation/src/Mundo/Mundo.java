@@ -10,6 +10,7 @@ import IAs.IAGeradoraFakeNews;
 import MeioComunicacaoConfiavel.MeioComunicacaoConfiavel;
 import Pessoa.Pessoa;
 import SituacaoPessoa.PessoaBemInformada;
+import SituacaoPessoa.PessoaImune;
 import SituacaoPessoa.PessoaMalInformada;
 import java.util.ArrayList;
 
@@ -340,36 +341,36 @@ public class Mundo {
         else if(posicaoEsquerda == 32){
             mandarRealNewsParaContatos(pessoa);
         }
-//        else if(posicaoEsquerda == 33){
-//            
-//        }
+        else if(posicaoEsquerda == 33){
+            transformarParaPessoaImune(pessoa);
+        }
         else if(posicaoDireita == 31){
             mandarFakeNewsParaContatos(pessoa);
         }
         else if(posicaoDireita == 32){
             mandarRealNewsParaContatos(pessoa);
         }
-//        else if(posicaoDireita == 33){
-//            
-//        }
+        else if(posicaoDireita == 33){
+            transformarParaPessoaImune(pessoa);
+        }
         else if(poaicaoCima == 31){
             mandarFakeNewsParaContatos(pessoa);
         }
         else if(poaicaoCima == 32){
             mandarRealNewsParaContatos(pessoa);
         }
-////        else if(poaicaoCima == 33){
-//            
-//        }
+        else if(poaicaoCima == 33){
+            transformarParaPessoaImune(pessoa);
+        }
         else if(posicaoBaixo == 31){
             mandarFakeNewsParaContatos(pessoa);
         }
         else if(posicaoBaixo == 32){
             mandarRealNewsParaContatos(pessoa);
         }
-//        else if(posicaoBaixo == 33){
-//            
-//        }
+        else if(posicaoBaixo == 33){
+            transformarParaPessoaImune(pessoa);
+        }
               
         
     }
@@ -386,6 +387,13 @@ public class Mundo {
         int indicePessoa = pessoasDoMundo.indexOf(pessoa);
         PessoaBemInformada pessoaBemInformada = new PessoaBemInformada(pessoa);
         pessoasDoMundo.set(indicePessoa,pessoaBemInformada);
+ 
+    }
+    public void transformarParaPessoaImune(Pessoa pessoa){
+        
+        int indicePessoa = pessoasDoMundo.indexOf(pessoa);
+        PessoaImune pessoaImunizada = new PessoaImune(pessoa);
+        pessoasDoMundo.set(indicePessoa,pessoaImunizada);
  
     }
     public void mandarRealNewsParaContatos(Pessoa pessoaSabia){
