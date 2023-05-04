@@ -165,19 +165,28 @@ public class Mundo {
                         System.out.print(" ");
                         break;
                     case 1:
-                        System.out.print("\033[46m \033[0m");
+                        System.out.print("\033[44m \033[0m");
                         break;
                     case 20:
                         System.out.print("\033[44m \033[0m");
                         break;
-                    case 21,31:
+                    case 21:
                         System.out.print("\033[41m \033[0m");
                         break;
-                    case 22,32:
+                    case 22:
                         System.out.print("\033[42m \033[0m");
                         break;
-                    case 23,33:
+                    case 23:
                         System.out.print("\033[43m \033[0m");
+                        break;
+                    case 31:
+                        System.out.print("\033[45m \033[0m");
+                        break;
+                    case 32:
+                        System.out.print("\033[46m \033[0m");
+                        break;
+                    case 33:
+                        System.out.print("\033[47m \033[0m");
                         break;
                 }
                     
