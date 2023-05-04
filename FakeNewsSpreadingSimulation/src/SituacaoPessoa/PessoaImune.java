@@ -11,6 +11,9 @@ import Pessoa.Pessoa;
  * @author bruno
  */
 public class PessoaImune extends Pessoa{
+    
+    public double contadorDeImunizacao = 30;
+    public int tipoPessoaAnterior; 
 
     public PessoaImune(Pessoa pessoa) {
         
@@ -24,6 +27,17 @@ public class PessoaImune extends Pessoa{
         this.getContatos().addAll(pessoa.getContatos());
         
         this.setNumeroDaCor(23); // Define o número da cor para 23
+        
+        if (pessoa instanceof PessoaMalInformada){
+            tipoPessoaAnterior = 1;
+        }
+        else if(pessoa instanceof PessoaBemInformada){
+            tipoPessoaAnterior = 2;
+        }
+        else{
+            tipoPessoaAnterior = 0;
+        }  
+        
     }
     
     public PessoaImune(){
@@ -31,5 +45,23 @@ public class PessoaImune extends Pessoa{
         this.setNumeroDaCor(23);// Define o número da cor para 23
  
     }
+
+    public double getContadorDeImunizacao() {
+        return contadorDeImunizacao;
+    }
+
+    public void setContadorDeImunizacao(double contadorDeImunizacao) {
+        this.contadorDeImunizacao = contadorDeImunizacao;
+    }
+
+    public int getTipoPessoaAnterior() {
+        return tipoPessoaAnterior;
+    }
+
+    public void setTipoPessoaAnterior(int tipoPessoaAnterior) {
+        this.tipoPessoaAnterior = tipoPessoaAnterior;
+    }
+    
+    
    
 }

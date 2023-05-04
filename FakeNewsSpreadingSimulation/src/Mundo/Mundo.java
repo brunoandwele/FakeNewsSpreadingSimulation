@@ -209,7 +209,7 @@ public class Mundo {
             verificarEncontroComObjetos();
   
             try{
-                Thread.sleep(500);
+                Thread.sleep(50);
                 tempoTotal+=0.5;
             }
             catch(Exception e){
@@ -254,7 +254,12 @@ public class Mundo {
         
         for(Pessoa pessoa: pessoasDoMundo){
             pessoa.mover();  
-            atualizaPessoasNosMapas(pessoa);            
+            atualizaPessoasNosMapas(pessoa);
+            
+            if (pessoa instanceof PessoaImune){
+                verificarTempoPessoaImune((PessoaImune) pessoa);
+            }
+            
         }
         
     }
@@ -375,6 +380,12 @@ public class Mundo {
         
     }
     
+    public void transformarParaPessoaNormal(Pessoa pessoa){
+        int indicePessoa = pessoasDoMundo.indexOf(pessoa);
+        Pessoa pessoaNormal = new Pessoa (pessoa);        
+        pessoasDoMundo.set(indicePessoa,pessoaNormal);
+    }
+    
     public void transformarParaPessoaMalInformada(Pessoa pessoa){
         
         int indicePessoa = pessoasDoMundo.indexOf(pessoa);
@@ -391,9 +402,13 @@ public class Mundo {
     }
     public void transformarParaPessoaImune(Pessoa pessoa){
         
-        int indicePessoa = pessoasDoMundo.indexOf(pessoa);
-        PessoaImune pessoaImunizada = new PessoaImune(pessoa);
-        pessoasDoMundo.set(indicePessoa,pessoaImunizada);
+        if((pessoa instanceof PessoaImune) == false){
+        
+            int indicePessoa = pessoasDoMundo.indexOf(pessoa);
+            PessoaImune pessoaImunizada = new PessoaImune(pessoa);
+            pessoasDoMundo.set(indicePessoa,pessoaImunizada);
+            
+        }
  
     }
     public void mandarRealNewsParaContatos(Pessoa pessoaSabia){
@@ -404,9 +419,16 @@ public class Mundo {
             
             for(Pessoa possivelContato:pessoasDoMundo){
                 
+                
+                
                 String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
                 
-                if(whatsAppIDPossivelContato.equals(contatoRegistrado)){        
+                if(whatsAppIDPossivelContato.equals(contatoRegistrado)){    
+                    
+                    if(possivelContato instanceof PessoaImune){
+                        continue;
+                    }
+                    
                     transformarParaPessoaBemInformada(possivelContato);
                 }
             }  
@@ -423,7 +445,12 @@ public class Mundo {
                 
                 String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
                 
-                if(whatsAppIDPossivelContato.equals(contatoRegistrado)){        
+                if(whatsAppIDPossivelContato.equals(contatoRegistrado)){
+                    
+                    if(possivelContato instanceof PessoaImune){
+                        continue;
+                    }   
+                    
                     transformarParaPessoaMalInformada(possivelContato);
                 }
             }  
@@ -473,5 +500,38 @@ public class Mundo {
         String teste = ip.nextLine();
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
-
+    public void verificarTempoPessoaImune(PessoaImune pessoa){
+        
+        double tempoRestante = pessoa.getContadorDeImunizacao();
+        
+        if (tempoRestante <= 0.0){
+            voltarPessoaImuneParaOriginal(pessoa);
+        }
+        else{
+            pessoa.setContadorDeImunizacao(tempoRestante-0.5);
+        }
+        
+    }
+    public void voltarPessoaImuneParaOriginal(PessoaImune pessoa){
+        
+        int tipoPessoaAnterior = pessoa.getTipoPessoaAnterior();
+        
+        switch(tipoPessoaAnterior){
+            
+            case 1 ->{
+                transformarParaPessoaMalInformada(pessoa);
+                break;
+            }
+            case 2 ->{
+                transformarParaPessoaBemInformada(pessoa);
+                break;
+            }
+            default ->{
+                transformarParaPessoaNormal(pessoa);
+                break;
+            }
+            
+        }
+        
+    }
 }

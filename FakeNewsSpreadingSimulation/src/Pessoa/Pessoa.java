@@ -31,6 +31,17 @@ public class Pessoa implements IMovable{
         }
  
     }
+    
+    public Pessoa(Pessoa pessoa){
+        
+        this.setCoordenadaAtualX(pessoa.getCoordenadaAtualX());
+        this.setCoordenadaAtualY(pessoa.getCoordenadaAtualY());
+        this.setCoordenadaAntigaX(pessoa.getCoordenadaAntigaX());
+        this.setCoordenadaAntigaY(pessoa.getCoordenadaAntigaY());  
+        this.setWhatsAppID(pessoa.getWhatsAppID());
+        this.getContatos().addAll(pessoa.getContatos());
+        this.numeroDaCor = 20;
+    }
    
  
     private int gerarDirecao(){
