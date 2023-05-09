@@ -114,10 +114,10 @@ public class Mundo {
                 mapaDados.get(i).add(new ArrayList<String>());
             }
             
-            mapaDados.get(i).trimToSize();
+            mapaDados.get(i).trimToSize();//Reduz o tamanho do array para o que ele já tem, para desocupar espaco
         }
         
-        mapaDados.trimToSize();
+        mapaDados.trimToSize();//Reduz o tamanho do array para o que ele já tem, para desocupar espaco
         
     }
     public void mostrarQuantidadeDePessoasPorTipo(){
@@ -218,7 +218,7 @@ public class Mundo {
             mostrarQuantidadeDePessoasPorTipo(); //Mostra a quantidade de cada tipo de pessoa
             desenhaMundoConsole(); //Imprime o mundo no console
             gerarMatrizMundo(); // Refaz a matriz do mundo
-            movimentaPessoas(); // Movimenta as pessoas
+            atualizarPessoas(); // Movimenta as pessoas
             verificarEncontroComObjetos(); //Verifica se houve o encontro com alguma estrutura
   
             try{
@@ -265,8 +265,9 @@ public class Mundo {
 
     
     }
-    public void movimentaPessoas(){       
+    public void atualizarPessoas(){       
         //Atualiza a posicao de cada pessoa do mundo ao chamar as funcoes que movem as pessoas
+        //E se a pessoa for imune, ela tem o seu tempo restante verificado
         
         for(Pessoa pessoa: pessoasDoMundo){
             pessoa.mover();  //Altera as coordenadas

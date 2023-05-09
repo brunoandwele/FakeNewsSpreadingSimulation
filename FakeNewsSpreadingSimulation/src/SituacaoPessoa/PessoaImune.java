@@ -12,8 +12,8 @@ import Pessoa.Pessoa;
  */
 public class PessoaImune extends Pessoa{
     
-    public double contadorDeImunizacao = 30;
-    public int tipoPessoaAnterior; 
+    public double contadorDeImunizacao = 30; //Tempo total de 30 segundos
+    public int tipoPessoaAnterior; //Atributo para armazenar o tipo de pessoa que era antes de virar imune
 
     public PessoaImune(Pessoa pessoa) {
         //Construtor de copia, para poder gerar um novo objeto a partir de um outro da classe Pessoa
