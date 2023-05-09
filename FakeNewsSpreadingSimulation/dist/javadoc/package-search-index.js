@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"EstruturasMundo"},{"l":"FakeNews"},{"l":"IAs"},{"l":"InterfacePessoa"},{"l":"MeioComunicacaoConfiavel"},{"l":"Mundo"},{"l":"Pessoa"},{"l":"SituacaoPessoa"}];updateSearchResults();
