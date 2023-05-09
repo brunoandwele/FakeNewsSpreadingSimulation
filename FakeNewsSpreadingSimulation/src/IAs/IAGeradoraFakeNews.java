@@ -13,7 +13,7 @@ import EstruturasMundo.EstruturasMundo;
 public class IAGeradoraFakeNews extends EstruturasMundo{
     
     public IAGeradoraFakeNews(int coordenadasXInicial, int coordenadasXFinal, int coordenadasYInicial, int coordenadasYFinal) {
-        
+        //Construtor para definir as coordenadas iniciais
         super(coordenadasXInicial, coordenadasXFinal, coordenadasYInicial, coordenadasYFinal);
         
         this.setNumeroDaCor(31); //Numero da cor padrao para IAGeradoraFakeNews é 31

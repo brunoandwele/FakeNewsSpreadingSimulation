@@ -14,9 +14,6 @@ import SituacaoPessoa.PessoaImune;
 import SituacaoPessoa.PessoaMalInformada;
 import java.util.ArrayList;
 
-//Apagar depois
-import java.util.Scanner;
-//Apagar depois
 
 /**
  *
@@ -24,11 +21,7 @@ import java.util.Scanner;
  */
 public class Mundo {
     
-    //Apagar depois
-    Scanner ip = new Scanner(System.in);
-    //Apagar depois
-    
-    public int[][] mapaFisico = new int[30][60];
+    public int[][] mapaFisico = new int[30][60]; 
     public ArrayList<ArrayList<ArrayList<String>>> mapaDados;
     private ArrayList<Pessoa> pessoasDoMundo = new ArrayList<>();
     private int countPessoasSemEfeitos, countPessoasBemInformadas, countPessoasMalInformadas, countPessoasImunes;
@@ -39,30 +32,29 @@ public class Mundo {
     private MeioComunicacaoConfiavel MeioComunicacaoConfiavel;
     
     public Mundo(){   
-        this.gerarEstruturas();
-        this.gerarPessoasMundo();
-        this.gerarMatrizDados();  
-        this.gerarMatrizMundo();
-        
+        this.gerarEstruturas(); //Gera as estruturas (objetos das IAs e da emissora)
+        this.gerarPessoasMundo();//Gera as 100 pessoas em um array dentro do objeto mundo
+        this.gerarMatrizDados(); //Gera a matriz contendo os dados de onde cada pessoa esta (usa o ID)
+        this.gerarMatrizMundo(); //Gera a matriz do mundo (a qual sera exibida aos usuarios)
     }
     
     public void gerarEstruturas(){
-        
+        //Gera as 3 estruturas dentro do mapa
         IAGeradoraFakeNews = new IAGeradoraFakeNews(25,35,5,10);
-        IADestruidoraFakeNews = new IADestruidoraFakeNews(10,20,20,25);
-        MeioComunicacaoConfiavel = new MeioComunicacaoConfiavel(40,50,20,25);
+        IADestruidoraFakeNews = new IADestruidoraFakeNews(15,20,20,25);
+        MeioComunicacaoConfiavel = new MeioComunicacaoConfiavel(40,45,20,25);
          
     }
     
     public void colocarEstruturasMatriz(){
+        //Adiciona as estruturas na matriz do mapa
         InserirEstruturaMatriz(IAGeradoraFakeNews);
         InserirEstruturaMatriz(IADestruidoraFakeNews);
-        InserirEstruturaMatriz(MeioComunicacaoConfiavel);
-        
+        InserirEstruturaMatriz(MeioComunicacaoConfiavel); 
     }
     
     public void InserirEstruturaMatriz(EstruturasMundo estrutura){
-        
+        //Funcao para posicionar a estrutura no mapa
         int xInicial = estrutura.getCoordenadasXInicial();
         int xFinal = estrutura.getCoordenadasXFinal();
         
@@ -80,6 +72,8 @@ public class Mundo {
     }
     
     public void gerarMatrizMundo(){
+        
+        //Gera a matriz do mundo
         
         // preenche a primeira e última coluna com 1
         for (int i = 0; i < 30; i++) {
@@ -100,10 +94,15 @@ public class Mundo {
             }
         }
         
+        //coloca as estruturas na matriz do mundo
         colocarEstruturasMatriz();
         
     }
     public void gerarMatrizDados(){
+        
+        //gera a matriz de dados, a qual controla onde cada pessoa esta (copia do mundo original mas com os ids no lugar das pessoas)
+        //É uma matriz usando arraylist, a qual no final simula o mundo visto pelos usuarios, mas no lugar dos numeros das pessoas, há 
+        //uma lista com os ids das pessoas que estao la - facilita na hora de adicionar nos contatos de uma pessoa.
         
         mapaDados = new ArrayList<>();
         
@@ -122,6 +121,8 @@ public class Mundo {
         
     }
     public void mostrarQuantidadeDePessoasPorTipo(){
+        
+        //Mostra a quantidade de pessoas totais de cada tipo, levando em conta o numero de cor de cada pessoa no array
         
         countPessoasSemEfeitos = 0;
         countPessoasMalInformadas = 0; 
@@ -149,43 +150,53 @@ public class Mundo {
                 }       
         }
         System.out.println("###########################");
-        System.out.println("Pessoas sem efeitos:    " + countPessoasSemEfeitos);
-        System.out.println("Pessoas MAL informadas: " + countPessoasMalInformadas);
-        System.out.println("Pessoas BEM informadas: " + countPessoasBemInformadas);
-        System.out.println("Pessoas imunes:         " + countPessoasImunes);
+        System.out.println("\033[44m \033[0m - Pessoas sem efeitos:    " + countPessoasSemEfeitos);
+        System.out.println("\033[41m \033[0m - Pessoas MAL informadas: " + countPessoasMalInformadas);
+        System.out.println("\033[42m \033[0m - Pessoas BEM informadas: " + countPessoasBemInformadas);
+        System.out.println("\033[43m \033[0m - Pessoas imunes:         " + countPessoasImunes);
         System.out.println("###########################");
         System.out.println("");
     }
     public void desenhaMundoConsole(){
+        //Funcao para imprimir o mundo no console com as cores coretas
         
         for(int i = 0; i < mapaFisico.length; i++){
             for(int j = 0; j < mapaFisico[i].length; j++){
                 
                 switch(mapaFisico[i][j]){
+                    //Cor para o vazio - "branco"
                     case 0:
                         System.out.print(" ");
                         break;
+                    //Cor para a borda - azul escuro
                     case 1:
                         System.out.print("\033[44m \033[0m");
                         break;
+                    //Cor para pessoa sem efeitos - azul escuro
                     case 20:
                         System.out.print("\033[44m \033[0m");
                         break;
+                    //Cor para pessoa mal informada - vermelho
                     case 21:
                         System.out.print("\033[41m \033[0m");
                         break;
+                    //Cor para pessoa bem informada - verde
                     case 22:
                         System.out.print("\033[42m \033[0m");
                         break;
+                    //Cor para pessoa imune - amarelo
                     case 23:
                         System.out.print("\033[43m \033[0m");
                         break;
+                    //Cor para IA geradora de fake news - rosa
                     case 31:
                         System.out.print("\033[45m \033[0m");
                         break;
+                    //Cor para IA destruidora de fake news - ciano
                     case 32:
                         System.out.print("\033[46m \033[0m");
                         break;
+                    //Cor para fonte de informacao confiavel - cinza
                     case 33:
                         System.out.print("\033[47m \033[0m");
                         break;
@@ -201,15 +212,17 @@ public class Mundo {
     public void animacaoMundo(){
         
         while(true){
+            //Mostra o tempo percorrido desde o inicio da animacao
             System.out.println("Tempo total: " + tempoTotal);
-            mostrarQuantidadeDePessoasPorTipo();
-            desenhaMundoConsole();
-            gerarMatrizMundo();
-            movimentaPessoas();
-            verificarEncontroComObjetos();
+            
+            mostrarQuantidadeDePessoasPorTipo(); //Mostra a quantidade de cada tipo de pessoa
+            desenhaMundoConsole(); //Imprime o mundo no console
+            gerarMatrizMundo(); // Refaz a matriz do mundo
+            movimentaPessoas(); // Movimenta as pessoas
+            verificarEncontroComObjetos(); //Verifica se houve o encontro com alguma estrutura
   
             try{
-                Thread.sleep(50);
+                Thread.sleep(500);
                 tempoTotal+=0.5;
             }
             catch(Exception e){
@@ -219,10 +232,10 @@ public class Mundo {
     }
     
     public void gerarPessoasMundo(){
-       
+        //Gera as 100 pessoas do mundo
+        
         int numeroDePessoas = 100;
-        
-        
+  
         for(int i = 0; i < numeroDePessoas; i++){
             Pessoa pessoaNova = new Pessoa(true);
             pessoasDoMundo.add(pessoaNova);
@@ -230,6 +243,8 @@ public class Mundo {
         
     }
     public void atualizaPessoasNosMapas(Pessoa pessoa){
+        
+        //Atualiza as posicoes das pessoas no mundo
         
         int coordenadaAtualX = pessoa.getCoordenadaAtualX();
         int coordenadaAtualY = pessoa.getCoordenadaAtualY();
@@ -251,10 +266,11 @@ public class Mundo {
     
     }
     public void movimentaPessoas(){       
+        //Atualiza a posicao de cada pessoa do mundo ao chamar as funcoes que movem as pessoas
         
         for(Pessoa pessoa: pessoasDoMundo){
-            pessoa.mover();  
-            atualizaPessoasNosMapas(pessoa);
+            pessoa.mover();  //Altera as coordenadas
+            atualizaPessoasNosMapas(pessoa); //Atualiza na matriz
             
             if (pessoa instanceof PessoaImune){
                 verificarTempoPessoaImune((PessoaImune) pessoa);
@@ -265,17 +281,19 @@ public class Mundo {
     }
     
     public void verificarEncontroComObjetos(){
+        //Verifica o encontro das pessoas com outros objetos do mundo
         
         for(Pessoa pessoa : pessoasDoMundo){
-            verificarEncontroPessoas(pessoa);
-        }
-        for(Pessoa pessoa : pessoasDoMundo){
-            verificarEncontroEstruturas(pessoa);
+            verificarEncontroEstruturas(pessoa); //Verifica com as estruturas
+            verificarEncontroPessoas(pessoa); //Verifica com as outras pessoas;
         }
         
     }
     public void verificarEncontroPessoas(Pessoa pessoa){
-
+            //Funcao que verifica o encontro de uma pessoas com outras
+            //Utiliza a matriz de dados (copia da matriz do mundo, mas dentro contem arrayList de strings, os quais
+            //guardam os ids das pessoas em cada posicao que estao
+            
             int coordenadaPessoaX = pessoa.getCoordenadaAtualX();
             int coordenadaPessoaY = pessoa.getCoordenadaAtualY();
             ArrayList<String> listaPessoasNessasCoordenadas;
@@ -331,6 +349,8 @@ public class Mundo {
     }
     
     public void verificarEncontroEstruturas(Pessoa pessoa){
+        //Verifica encontro com as estruturas do mundo
+        //Para isso, ele analisa as cores da matriz do mundo
         
         int coordenadasX = pessoa.getCoordenadaAtualX();
         int coordenadasY = pessoa.getCoordenadaAtualY();
@@ -381,27 +401,30 @@ public class Mundo {
     }
     
     public void transformarParaPessoaNormal(Pessoa pessoa){
+        //Usa um construtor de copia para copiar a pessoa de uma certa classe para a pessoa normal
         int indicePessoa = pessoasDoMundo.indexOf(pessoa);
         Pessoa pessoaNormal = new Pessoa (pessoa);        
         pessoasDoMundo.set(indicePessoa,pessoaNormal);
+        
     }
     
     public void transformarParaPessoaMalInformada(Pessoa pessoa){
-        
+        //Usa um construtor de copia para copiar a pessoa de uma certa classe para a pessoa malInformada
         int indicePessoa = pessoasDoMundo.indexOf(pessoa);
-        PessoaMalInformada pessoaMalInformada = new PessoaMalInformada(pessoa);            
-        pessoasDoMundo.set(indicePessoa,pessoaMalInformada);
+        PessoaMalInformada pessoaTransformadaMalInformada = new PessoaMalInformada(pessoa);            
+        pessoasDoMundo.set(indicePessoa,pessoaTransformadaMalInformada);
  
     }
     public void transformarParaPessoaBemInformada(Pessoa pessoa){
-        
+        //Usa um construtor de copia para copiar a pessoa de uma certa classe para a pessoa Bem Informada
         int indicePessoa = pessoasDoMundo.indexOf(pessoa);
         PessoaBemInformada pessoaBemInformada = new PessoaBemInformada(pessoa);
         pessoasDoMundo.set(indicePessoa,pessoaBemInformada);
  
     }
     public void transformarParaPessoaImune(Pessoa pessoa){
-        
+        //Usa um construtor de copia para copiar a pessoa de uma certa classe para a pessoa Imune
+        //Se a pessoa já for imune, ele nao transforma ela em imune para nao perder na memoria a classe que ela era anteriormente
         if((pessoa instanceof PessoaImune) == false){
         
             int indicePessoa = pessoasDoMundo.indexOf(pessoa);
@@ -412,108 +435,79 @@ public class Mundo {
  
     }
     public void mandarRealNewsParaContatos(Pessoa pessoaSabia){
+        //Funcao para "enviar" noticias verdadeiras para o contato de alguma pessoa
+        //O envio só acontece se a pessoa que entrou em contato não está imuene
+        
+        if((pessoaSabia instanceof PessoaImune) == false){
 
-        ArrayList<String> contatosPessoaInfectada = pessoaSabia.getContatos();
+            ArrayList<String> contatosPessoaInfectada = pessoaSabia.getContatos();
 
-        for (String contatoRegistrado:contatosPessoaInfectada){
-            
-            for(Pessoa possivelContato:pessoasDoMundo){
-                
-                
-                
-                String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
-                
-                if(whatsAppIDPossivelContato.equals(contatoRegistrado)){    
-                    
-                    if(possivelContato instanceof PessoaImune){
-                        continue;
+            for (String contatoRegistrado:contatosPessoaInfectada){
+                //Analisa na lista de contatos da pessoa quem ela tem, e entao usa a funcao de transformarParaPessoaBemInformada() nelas
+
+                for(Pessoa possivelContato:pessoasDoMundo){
+
+                    String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
+
+                    if(whatsAppIDPossivelContato.equals(contatoRegistrado)){    
+                        //Se a pessoa for imune, ela nao se transforma em BemInformada
+                        if(possivelContato instanceof PessoaImune){
+                            continue;
+                        }
+
+                        transformarParaPessoaBemInformada(possivelContato);
                     }
-                    
-                    transformarParaPessoaBemInformada(possivelContato);
-                }
-            }  
+                }  
+            }
+            transformarParaPessoaBemInformada(pessoaSabia);
         }
-        transformarParaPessoaBemInformada(pessoaSabia);
     }
+    
     public void mandarFakeNewsParaContatos(Pessoa pessoaInfectada){
-
-        ArrayList<String> contatosPessoaInfectada = pessoaInfectada.getContatos();
-
-        for (String contatoRegistrado:contatosPessoaInfectada){
+        //Funcao para "enviar" noticias falsas para o contato de alguma pessoa
+        //O envio só acontece se a pessoa que entrou em contato não está imuene
+        
+        if((pessoaInfectada instanceof PessoaImune) == false){
+            ArrayList<String> contatosPessoaInfectada = pessoaInfectada.getContatos();
             
-            for(Pessoa possivelContato:pessoasDoMundo){
-                
-                String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
-                
-                if(whatsAppIDPossivelContato.equals(contatoRegistrado)){
+            //Analisa na lista de contatos da pessoa quem ela tem, e entao usa a funcao de transformarParaPessoaMalInformada() nelas
+            for (String contatoRegistrado:contatosPessoaInfectada){
+
+                for(Pessoa possivelContato:pessoasDoMundo){
                     
-                    if(possivelContato instanceof PessoaImune){
-                        continue;
-                    }   
-                    
-                    transformarParaPessoaMalInformada(possivelContato);
-                }
-            }  
-        }
-        transformarParaPessoaMalInformada(pessoaInfectada);
-    }
-    public void mandarFakeNewsParaContatosComentado(Pessoa pessoaInfectada){
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        ArrayList<String> contatosPessoaInfectada = pessoaInfectada.getContatos();
-        String id = pessoaInfectada.getWhatsAppID();
-        System.out.println("Contatos - "+ id);
-        for(String contato1:contatosPessoaInfectada){
-            System.out.print(contato1 +" / ");
-        }
-        System.out.println("");
-        System.out.println("##########");
-        for (String contatoRegistrado:contatosPessoaInfectada){
-            
-            for(Pessoa possivelContato:pessoasDoMundo){
-                
-                String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
-                
-                if(whatsAppIDPossivelContato.equals(contatoRegistrado)){
-                    System.out.println("Comparacao: " + whatsAppIDPossivelContato + "//" + contatoRegistrado);
-                    int index2 = pessoasDoMundo.indexOf(possivelContato);
-                    String id2 = pessoasDoMundo.get(index2).getWhatsAppID();
-                    System.out.println("Classe do contato anterior a transformacao: " + id2+ " - " + pessoasDoMundo.get(index2).getClass());
-                    transformarParaPessoaMalInformada(possivelContato);
-                    ArrayList<String> contatos2 = pessoasDoMundo.get(index2).getContatos();
-                    id2 = pessoasDoMundo.get(index2).getWhatsAppID();
-                    System.out.println("Classe do contato apos transformacao: " + id2+ " - " + pessoasDoMundo.get(index2).getClass());
-                    System.out.println("Contatos - " + id2);
-                    for(String contato2:contatos2){
-                        System.out.print(contato2 +" / ");
+                    String whatsAppIDPossivelContato = possivelContato.getWhatsAppID();
+
+                    if(whatsAppIDPossivelContato.equals(contatoRegistrado)){
+                        //Se a pessoa for imune, ela nao se transforma em malInformada
+                        if(possivelContato instanceof PessoaImune){
+                            continue;
+                        }   
+
+                        transformarParaPessoaMalInformada(possivelContato);
                     }
-                    System.out.println("");
-                    System.out.println("-----------");
-                }
-            }  
+                }  
+            }
+            transformarParaPessoaMalInformada(pessoaInfectada);
         }
-        
-        int index1 = pessoasDoMundo.indexOf(pessoaInfectada);
-        System.out.println("Classe da pessoa infectada anterior a transformacao: " + pessoasDoMundo.get(index1).getClass());
-        transformarParaPessoaMalInformada(pessoaInfectada);
-        
-        System.out.println("Classe da pessoa infectada apos transformacao: " + pessoasDoMundo.get(index1).getClass());
-        String teste = ip.nextLine();
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
+    
     public void verificarTempoPessoaImune(PessoaImune pessoa){
-        
+        //Funcao para verificar tempo restante de uma pessoa imune
         double tempoRestante = pessoa.getContadorDeImunizacao();
         
         if (tempoRestante <= 0.0){
+            //Se o tempo acabar, ela volta para a posicao original
             voltarPessoaImuneParaOriginal(pessoa);
         }
         else{
+            
             pessoa.setContadorDeImunizacao(tempoRestante-0.5);
         }
         
     }
     public void voltarPessoaImuneParaOriginal(PessoaImune pessoa){
-        
+        //Ao a pessoa virar imune, ele armazena em um atributo inteiro um numero associado ao tipo que a pessoa era anteriormente
+        //Dai usa esse atributo depois para verifiar para qual classe de objeto ele deve ser transformado apos acabar a imunizacao
         int tipoPessoaAnterior = pessoa.getTipoPessoaAnterior();
         
         switch(tipoPessoaAnterior){

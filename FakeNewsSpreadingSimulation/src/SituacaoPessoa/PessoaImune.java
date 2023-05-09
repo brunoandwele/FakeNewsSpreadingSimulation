@@ -16,7 +16,7 @@ public class PessoaImune extends Pessoa{
     public int tipoPessoaAnterior; 
 
     public PessoaImune(Pessoa pessoa) {
-        
+        //Construtor de copia, para poder gerar um novo objeto a partir de um outro da classe Pessoa
         super(false); // Chama o construtor padrão de Pessoa
         
         this.setCoordenadaAtualX(pessoa.getCoordenadaAtualX());

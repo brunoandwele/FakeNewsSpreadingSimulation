@@ -11,9 +11,9 @@ import EstruturasMundo.EstruturasMundo;
  * @author bruno
  */
 public class MeioComunicacaoConfiavel extends EstruturasMundo{
-
+    
     public MeioComunicacaoConfiavel(int coordenadasXInicial, int coordenadasXFinal, int coordenadasYInicial, int coordenadasYFinal) {
-        
+        //Construtor para definir as coordenadas iniciais
         super(coordenadasXInicial, coordenadasXFinal, coordenadasYInicial, coordenadasYFinal);
         
         this.setNumeroDaCor(33); //Numero da cor padrao para MeioComunicacaoConfiavel é 33
