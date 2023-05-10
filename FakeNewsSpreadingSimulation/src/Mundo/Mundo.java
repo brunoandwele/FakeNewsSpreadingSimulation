@@ -222,7 +222,7 @@ public class Mundo {
             verificarEncontroComObjetos(); //Verifica se houve o encontro com alguma estrutura
   
             try{
-                Thread.sleep(500);
+                Thread.sleep(50);
                 tempoTotal+=0.5;
             }
             catch(Exception e){
@@ -285,8 +285,11 @@ public class Mundo {
         //Verifica o encontro das pessoas com outros objetos do mundo
         
         for(Pessoa pessoa : pessoasDoMundo){
-            verificarEncontroEstruturas(pessoa); //Verifica com as estruturas
             verificarEncontroPessoas(pessoa); //Verifica com as outras pessoas;
+        }
+        
+        for(Pessoa pessoa : pessoasDoMundo){
+            verificarEncontroEstruturas(pessoa); //Verifica com as estruturas
         }
         
     }
@@ -399,15 +402,7 @@ public class Mundo {
         }
               
         
-    }
-    
-    public void transformarParaPessoaNormal(Pessoa pessoa){
-        //Usa um construtor de copia para copiar a pessoa de uma certa classe para a pessoa normal
-        int indicePessoa = pessoasDoMundo.indexOf(pessoa);
-        Pessoa pessoaNormal = new Pessoa (pessoa);        
-        pessoasDoMundo.set(indicePessoa,pessoaNormal);
-        
-    }
+    }   
     
     public void transformarParaPessoaMalInformada(Pessoa pessoa){
         //Usa um construtor de copia para copiar a pessoa de uma certa classe para a pessoa malInformada
@@ -425,15 +420,11 @@ public class Mundo {
     }
     public void transformarParaPessoaImune(Pessoa pessoa){
         //Usa um construtor de copia para copiar a pessoa de uma certa classe para a pessoa Imune
-        //Se a pessoa já for imune, ele nao transforma ela em imune para nao perder na memoria a classe que ela era anteriormente
-        if((pessoa instanceof PessoaImune) == false){
-        
-            int indicePessoa = pessoasDoMundo.indexOf(pessoa);
-            PessoaImune pessoaImunizada = new PessoaImune(pessoa);
-            pessoasDoMundo.set(indicePessoa,pessoaImunizada);
+        int indicePessoa = pessoasDoMundo.indexOf(pessoa);
+        PessoaImune pessoaImunizada = new PessoaImune(pessoa);
+        pessoasDoMundo.set(indicePessoa,pessoaImunizada);
             
-        }
- 
+         
     }
     public void mandarRealNewsParaContatos(Pessoa pessoaSabia){
         //Funcao para "enviar" noticias verdadeiras para o contato de alguma pessoa
@@ -498,7 +489,7 @@ public class Mundo {
         
         if (tempoRestante <= 0.0){
             //Se o tempo acabar, ela volta para a posicao original
-            voltarPessoaImuneParaOriginal(pessoa);
+            transformarParaPessoaBemInformada(pessoa);
         }
         else{
             
@@ -506,27 +497,5 @@ public class Mundo {
         }
         
     }
-    public void voltarPessoaImuneParaOriginal(PessoaImune pessoa){
-        //Ao a pessoa virar imune, ele armazena em um atributo inteiro um numero associado ao tipo que a pessoa era anteriormente
-        //Dai usa esse atributo depois para verifiar para qual classe de objeto ele deve ser transformado apos acabar a imunizacao
-        int tipoPessoaAnterior = pessoa.getTipoPessoaAnterior();
-        
-        switch(tipoPessoaAnterior){
-            
-            case 1 ->{
-                transformarParaPessoaMalInformada(pessoa);
-                break;
-            }
-            case 2 ->{
-                transformarParaPessoaBemInformada(pessoa);
-                break;
-            }
-            default ->{
-                transformarParaPessoaNormal(pessoa);
-                break;
-            }
-            
-        }
-        
-    }
+
 }
