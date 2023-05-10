@@ -9,14 +9,14 @@ package EstruturasMundo;
  * @author bruno
  */
 public class EstruturasMundo {
-    
+    //Atributos que limitam a area das estruturas
     protected int coordenadasXInicial, coordenadasXFinal;
     protected int coordenadasYInicial, coordenadasYFinal; 
     
     protected int numeroDaCor;
     
     public EstruturasMundo(int coordenadasXInicial, int coordenadasXFinal, int coordenadasYInicial, int coordenadasYFinal){
-        
+        //Construtor para definir os limites da estrutura criada
         this.coordenadasXInicial = coordenadasXInicial;
         this.coordenadasXFinal = coordenadasXFinal;
         this.coordenadasYInicial = coordenadasYInicial;

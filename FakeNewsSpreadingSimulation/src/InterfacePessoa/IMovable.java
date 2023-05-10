@@ -9,7 +9,7 @@ package InterfacePessoa;
  * @author bruno
  */
 public interface IMovable {
-    
+    //Interface com a funcao mover
     public void mover();
     
 }

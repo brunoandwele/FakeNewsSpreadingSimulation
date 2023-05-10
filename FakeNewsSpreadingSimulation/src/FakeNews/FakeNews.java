@@ -14,6 +14,7 @@ public class FakeNews {
     public int numeroFakeNews;
     
     public FakeNews(){
+        //Construtor que atualiza a variavel estatica e associa ao numero da fake news criada
         baseNumeroFakeNews++;
         this.numeroFakeNews = baseNumeroFakeNews;
     }

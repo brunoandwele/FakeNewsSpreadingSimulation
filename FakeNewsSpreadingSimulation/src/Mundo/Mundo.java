@@ -22,13 +22,15 @@ import java.util.ArrayList;
  */
 public class Mundo {
     
-    public int[][] mapaFisico = new int[30][60]; 
-    public ArrayList<ArrayList<ArrayList<String>>> mapaDados;
-    private ArrayList<Pessoa> pessoasDoMundo = new ArrayList<>();
-    private int countPessoasSemEfeitos, countPessoasBemInformadas, countPessoasMalInformadas, countPessoasImunes;
-    private double tempoTotal = 0;
-    private int quantidadeFakeNewsCompartilhadas;
+    public int[][] mapaFisico = new int[30][60]; //Matriz contendo o desenho do mundo e os numeros para cada co
+    // Matriz de arraylist que é uma copia do mapaFisico, entretanto contem arrylist<String> que ira guardar os ids de cada pessoa em cada posicao conforme andam.
+    public ArrayList<ArrayList<ArrayList<String>>> mapaComIds; 
+    private ArrayList<Pessoa> pessoasDoMundo = new ArrayList<>(); //Array das pessoas do mund0
+    private int countPessoasSemEfeitos, countPessoasBemInformadas, countPessoasMalInformadas, countPessoasImunes; //Variaves para armazenar a quantidade de pessoas de cada tipo
+    private double tempoTotal = 0; //Atributo para guardar o tempo que o codigo estará rodando
+    private int quantidadeFakeNewsCompartilhadas; //Atributo que guarda a quantidade de fakeNews Compartilhada
     
+    //Atributos que guardam objetos de cada estrutura, fazendo uma composicao com elas.
     private IAGeradoraFakeNews IAGeradoraFakeNews;
     private IADestruidoraFakeNews IADestruidoraFakeNews; 
     private MeioComunicacaoConfiavel MeioComunicacaoConfiavel;
@@ -41,7 +43,7 @@ public class Mundo {
     }
     
     public void gerarEstruturas(){
-        //Gera as 3 estruturas dentro do mapa
+        //Gera (instancia) as 3 estruturas dentro do mapa
         IAGeradoraFakeNews = new IAGeradoraFakeNews(25,35,5,10);
         IADestruidoraFakeNews = new IADestruidoraFakeNews(15,20,20,25);
         MeioComunicacaoConfiavel = new MeioComunicacaoConfiavel(40,45,20,25);
@@ -56,13 +58,13 @@ public class Mundo {
     }
     
     public void InserirEstruturaMatriz(EstruturasMundo estrutura){
-        //Funcao para posicionar a estrutura no mapa
+        //Funcao para posicionar a estrutura no mapa com base nas delimitacoes da area
         int xInicial = estrutura.getCoordenadasXInicial();
         int xFinal = estrutura.getCoordenadasXFinal();
         
         int yInicial = estrutura.getCoordenadasYInicial();
         int yFinal = estrutura.getCoordenadasYFinal();
- 
+        //Preenche a area em que a estrutura estiver com o numero da cor dela
         for(int i = yInicial; i < yFinal; i++){
 
             for(int j = xInicial; j < xFinal; j++){
@@ -106,20 +108,20 @@ public class Mundo {
         //É uma matriz usando arraylist, a qual no final simula o mundo visto pelos usuarios, mas no lugar dos numeros das pessoas, há 
         //uma lista com os ids das pessoas que estao la - facilita na hora de adicionar nos contatos de uma pessoa.
         
-        mapaDados = new ArrayList<>();
+        mapaComIds = new ArrayList<>();
         
         for(int i = 0;i < 30; i++){
             
-            mapaDados.add(new ArrayList<ArrayList<String>>());
+            mapaComIds.add(new ArrayList<ArrayList<String>>());
             
             for(int j = 0;j < 60; j++){
-                mapaDados.get(i).add(new ArrayList<String>());
+                mapaComIds.get(i).add(new ArrayList<String>());
             }
             
-            mapaDados.get(i).trimToSize();//Reduz o tamanho do array para o que ele já tem, para desocupar espaco
+            mapaComIds.get(i).trimToSize();//Reduz o tamanho do array para o que ele já tem, para desocupar espaco
         }
         
-        mapaDados.trimToSize();//Reduz o tamanho do array para o que ele já tem, para desocupar espaco
+        mapaComIds.trimToSize();//Reduz o tamanho do array para o que ele já tem, para desocupar espaco
         
     }
     public void mostrarDadosMundo(){
@@ -151,6 +153,7 @@ public class Mundo {
                     }   
                 }       
         }
+        //Prints mostrando os dados do mundo
         System.out.println("###########################");
         System.out.println("\033[44m \033[0m - Pessoas sem efeitos:    " + countPessoasSemEfeitos);
         System.out.println("\033[41m \033[0m - Pessoas MAL informadas: " + countPessoasMalInformadas);
@@ -263,8 +266,8 @@ public class Mundo {
         String whatsAppID = pessoa.getWhatsAppID();
               
         //Atualiza no mapa dos Dados (Matriz de ArrayList de ArrayList de ArrayList de String)
-        mapaDados.get(coordenadaAtualY).get(coordenadaAtualX).add(whatsAppID);
-        mapaDados.get(coordenadaAntigaY).get(coordenadaAntigaX).remove(whatsAppID);
+        mapaComIds.get(coordenadaAtualY).get(coordenadaAtualX).add(whatsAppID);
+        mapaComIds.get(coordenadaAntigaY).get(coordenadaAntigaX).remove(whatsAppID);
 
     
     }
@@ -308,7 +311,7 @@ public class Mundo {
             //Verifica se tem alguem na esquerda, direita, embaixo, em cima ou na mesma posicao
             
             //Verifica na mesma posicao (coordenadas sao as mesmas)
-            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX);
+            listaPessoasNessasCoordenadas = mapaComIds.get(coordenadaPessoaY).get(coordenadaPessoaX);
             if(listaPessoasNessasCoordenadas.size()>1){
                 
                 for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
@@ -318,7 +321,7 @@ public class Mundo {
             }
             
             //Verifica na posicao a esquerda (coordenada X - 1)
-            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX-1);
+            listaPessoasNessasCoordenadas = mapaComIds.get(coordenadaPessoaY).get(coordenadaPessoaX-1);
             if(listaPessoasNessasCoordenadas.size()>0){
                 
                 for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
@@ -328,7 +331,7 @@ public class Mundo {
             }
             
             //Verifica na posicao a direita (coordenada X + 1)
-            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY).get(coordenadaPessoaX+1);
+            listaPessoasNessasCoordenadas = mapaComIds.get(coordenadaPessoaY).get(coordenadaPessoaX+1);
             if(listaPessoasNessasCoordenadas.size()>0){
                 
                 for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
@@ -337,7 +340,7 @@ public class Mundo {
             }
             
             //Verifica na posicao a cima (coordenada Y - 1)
-            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY-1).get(coordenadaPessoaX);
+            listaPessoasNessasCoordenadas = mapaComIds.get(coordenadaPessoaY-1).get(coordenadaPessoaX);
             if(listaPessoasNessasCoordenadas.size()>0){
                 
                 for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
@@ -346,7 +349,7 @@ public class Mundo {
             }
             
             //Verifica na posicao a baixo (coordenada Y + 1)
-            listaPessoasNessasCoordenadas = mapaDados.get(coordenadaPessoaY+1).get(coordenadaPessoaX);
+            listaPessoasNessasCoordenadas = mapaComIds.get(coordenadaPessoaY+1).get(coordenadaPessoaX);
             if(listaPessoasNessasCoordenadas.size()>0){
                 
                 for(String whatsAppPessoa:listaPessoasNessasCoordenadas){
