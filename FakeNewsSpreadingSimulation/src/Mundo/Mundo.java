@@ -222,7 +222,7 @@ public class Mundo {
             verificarEncontroComObjetos(); //Verifica se houve o encontro com alguma estrutura
   
             try{
-                Thread.sleep(50);
+                Thread.sleep(500);
                 tempoTotal+=0.5;
             }
             catch(Exception e){
