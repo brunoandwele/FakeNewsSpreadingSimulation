@@ -155,6 +155,9 @@ public class Mundo {
         }
         //Prints mostrando os dados do mundo
         System.out.println("###########################");
+        System.out.println("\033[45m \033[0m - IAGeradoraFakeNews");
+        System.out.println("\033[46m \033[0m - IADestruidoraFakeNews");
+        System.out.println("\033[47m \033[0m - FonteDeInformacaoConfiavel");
         System.out.println("\033[44m \033[0m - Pessoas sem efeitos:    " + countPessoasSemEfeitos);
         System.out.println("\033[41m \033[0m - Pessoas MAL informadas: " + countPessoasMalInformadas);
         System.out.println("\033[42m \033[0m - Pessoas BEM informadas: " + countPessoasBemInformadas);
