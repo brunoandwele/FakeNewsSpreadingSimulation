@@ -5,6 +5,7 @@
 package Mundo;
 
 import EstruturasMundo.EstruturasMundo;
+import FakeNews.FakeNews;
 import IAs.IADestruidoraFakeNews;
 import IAs.IAGeradoraFakeNews;
 import MeioComunicacaoConfiavel.MeioComunicacaoConfiavel;
@@ -26,6 +27,7 @@ public class Mundo {
     private ArrayList<Pessoa> pessoasDoMundo = new ArrayList<>();
     private int countPessoasSemEfeitos, countPessoasBemInformadas, countPessoasMalInformadas, countPessoasImunes;
     private double tempoTotal = 0;
+    private int quantidadeFakeNewsCompartilhadas;
     
     private IAGeradoraFakeNews IAGeradoraFakeNews;
     private IADestruidoraFakeNews IADestruidoraFakeNews; 
@@ -120,7 +122,7 @@ public class Mundo {
         mapaDados.trimToSize();//Reduz o tamanho do array para o que ele já tem, para desocupar espaco
         
     }
-    public void mostrarQuantidadeDePessoasPorTipo(){
+    public void mostrarDadosMundo(){
         
         //Mostra a quantidade de pessoas totais de cada tipo, levando em conta o numero de cor de cada pessoa no array
         
@@ -154,6 +156,7 @@ public class Mundo {
         System.out.println("\033[41m \033[0m - Pessoas MAL informadas: " + countPessoasMalInformadas);
         System.out.println("\033[42m \033[0m - Pessoas BEM informadas: " + countPessoasBemInformadas);
         System.out.println("\033[43m \033[0m - Pessoas imunes:         " + countPessoasImunes);
+        System.out.println("Quantidade de FakeNews compartilhadas:   " + this.quantidadeFakeNewsCompartilhadas);
         System.out.println("###########################");
         System.out.println("");
     }
@@ -215,7 +218,7 @@ public class Mundo {
             //Mostra o tempo percorrido desde o inicio da animacao
             System.out.println("Tempo total: " + tempoTotal);
             
-            mostrarQuantidadeDePessoasPorTipo(); //Mostra a quantidade de cada tipo de pessoa
+            mostrarDadosMundo(); //Mostra a quantidade de cada tipo de pessoa
             desenhaMundoConsole(); //Imprime o mundo no console
             gerarMatrizMundo(); // Refaz a matriz do mundo
             atualizarPessoas(); // Movimenta as pessoas
@@ -404,10 +407,10 @@ public class Mundo {
         
     }   
     
-    public void transformarParaPessoaMalInformada(Pessoa pessoa){
+    public void transformarParaPessoaMalInformada(Pessoa pessoa, FakeNews novaFakeNewsCompartilhada){
         //Usa um construtor de copia para copiar a pessoa de uma certa classe para a pessoa malInformada
         int indicePessoa = pessoasDoMundo.indexOf(pessoa);
-        PessoaMalInformada pessoaTransformadaMalInformada = new PessoaMalInformada(pessoa);            
+        PessoaMalInformada pessoaTransformadaMalInformada = new PessoaMalInformada(pessoa,novaFakeNewsCompartilhada);
         pessoasDoMundo.set(indicePessoa,pessoaTransformadaMalInformada);
  
     }
@@ -460,6 +463,10 @@ public class Mundo {
         //O envio só acontece se a pessoa que entrou em contato não está imuene
         
         if((pessoaInfectada instanceof PessoaImune) == false){
+            
+            //Cria a fakenews que será compartilhada
+            FakeNews novaFakeNewsCompartilhada = new FakeNews();
+            
             ArrayList<String> contatosPessoaInfectada = pessoaInfectada.getContatos();
             
             //Analisa na lista de contatos da pessoa quem ela tem, e entao usa a funcao de transformarParaPessoaMalInformada() nelas
@@ -475,11 +482,14 @@ public class Mundo {
                             continue;
                         }   
 
-                        transformarParaPessoaMalInformada(possivelContato);
+                        transformarParaPessoaMalInformada(possivelContato,novaFakeNewsCompartilhada);
                     }
                 }  
             }
-            transformarParaPessoaMalInformada(pessoaInfectada);
+            //finalmente transforma a pessoa que entrou em contato em malInformada
+            transformarParaPessoaMalInformada(pessoaInfectada,novaFakeNewsCompartilhada);
+            //Define a quantidade de fakeNews enviadas com base na ultima fakeNews envidada.
+            this.quantidadeFakeNewsCompartilhadas =  novaFakeNewsCompartilhada.getNumeroFakeNews();
         }
     }
     

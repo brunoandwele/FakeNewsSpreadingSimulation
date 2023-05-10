@@ -9,5 +9,28 @@ package FakeNews;
  * @author bruno
  */
 public class FakeNews {
+    private static int baseNumeroFakeNews = 0;
+    public int numeroFakeNews;
+    
+    public FakeNews(){
+        baseNumeroFakeNews++;
+        this.numeroFakeNews = baseNumeroFakeNews;
+    }
+
+    public static int getBaseNumeroFakeNews() {
+        return baseNumeroFakeNews;
+    }
+
+    public static void setBaseNumeroFakeNews(int baseNumeroFakeNews) {
+        FakeNews.baseNumeroFakeNews = baseNumeroFakeNews;
+    }
+
+    public int getNumeroFakeNews() {
+        return numeroFakeNews;
+    }
+
+    public void setNumeroFakeNews(int numeroFakeNews) {
+        this.numeroFakeNews = numeroFakeNews;
+    }
     
 }
