@@ -5,6 +5,7 @@
 package SituacaoPessoa;
 
 import Pessoa.Pessoa;
+import RealNews.RealNews;
 
 /**
  *
@@ -12,8 +13,10 @@ import Pessoa.Pessoa;
  */
 
 public class PessoaBemInformada extends Pessoa{
+    
+    private RealNews realNewsRecebida;
 
-    public PessoaBemInformada(Pessoa pessoa) {
+    public PessoaBemInformada(Pessoa pessoa, RealNews novaRealNewsCompartilhada) {
         //Construtor de copia, para poder gerar um novo objeto a partir de um outro da classe Pessoa
         super(false); // Chama o construtor padrão de Pessoa
         
@@ -25,6 +28,7 @@ public class PessoaBemInformada extends Pessoa{
         this.getContatos().addAll(pessoa.getContatos());
         
         this.setNumeroDaCor(22); // Define o número da cor para 22
+        this.realNewsRecebida = novaRealNewsCompartilhada;
     }
     
     public PessoaBemInformada(){

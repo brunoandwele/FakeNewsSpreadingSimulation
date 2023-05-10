@@ -10,6 +10,7 @@ import IAs.IADestruidoraFakeNews;
 import IAs.IAGeradoraFakeNews;
 import MeioComunicacaoConfiavel.MeioComunicacaoConfiavel;
 import Pessoa.Pessoa;
+import RealNews.RealNews;
 import SituacaoPessoa.PessoaBemInformada;
 import SituacaoPessoa.PessoaImune;
 import SituacaoPessoa.PessoaMalInformada;
@@ -28,7 +29,9 @@ public class Mundo {
     private ArrayList<Pessoa> pessoasDoMundo = new ArrayList<>(); //Array das pessoas do mund0
     private int countPessoasSemEfeitos, countPessoasBemInformadas, countPessoasMalInformadas, countPessoasImunes; //Variaves para armazenar a quantidade de pessoas de cada tipo
     private double tempoTotal = 0; //Atributo para guardar o tempo que o codigo estará rodando
+    
     private int quantidadeFakeNewsCompartilhadas; //Atributo que guarda a quantidade de fakeNews Compartilhada
+    private int quantidadeRealNewsCompartilhadas;//Atributo que guarda a quantidade de realNews Compartilhada
     
     //Atributos que guardam objetos de cada estrutura, fazendo uma composicao com elas.
     private IAGeradoraFakeNews IAGeradoraFakeNews;
@@ -45,8 +48,8 @@ public class Mundo {
     public void gerarEstruturas(){
         //Gera (instancia) as 3 estruturas dentro do mapa
         IAGeradoraFakeNews = new IAGeradoraFakeNews(25,35,5,10);
-        IADestruidoraFakeNews = new IADestruidoraFakeNews(15,20,20,25);
-        MeioComunicacaoConfiavel = new MeioComunicacaoConfiavel(40,45,20,25);
+        IADestruidoraFakeNews = new IADestruidoraFakeNews(15,20,20,22);
+        MeioComunicacaoConfiavel = new MeioComunicacaoConfiavel(40,45,20,22);
          
     }
     
@@ -157,12 +160,13 @@ public class Mundo {
         System.out.println("###########################");
         System.out.println("\033[45m \033[0m - IAGeradoraFakeNews");
         System.out.println("\033[46m \033[0m - IADestruidoraFakeNews");
-        System.out.println("\033[47m \033[0m - FonteDeInformacaoConfiavel");
+        System.out.println("\033[47m \033[0m - Fonte De Informacao Confiavel");
         System.out.println("\033[44m \033[0m - Pessoas sem efeitos:    " + countPessoasSemEfeitos);
         System.out.println("\033[41m \033[0m - Pessoas MAL informadas: " + countPessoasMalInformadas);
         System.out.println("\033[42m \033[0m - Pessoas BEM informadas: " + countPessoasBemInformadas);
         System.out.println("\033[43m \033[0m - Pessoas imunes:         " + countPessoasImunes);
         System.out.println("Quantidade de FakeNews compartilhadas:   " + this.quantidadeFakeNewsCompartilhadas);
+        System.out.println("Quantidade de RealNews compartilhadas:   " + this.quantidadeRealNewsCompartilhadas);
         System.out.println("###########################");
         System.out.println("");
     }
@@ -424,10 +428,10 @@ public class Mundo {
         pessoasDoMundo.set(indicePessoa,pessoaTransformadaMalInformada);
  
     }
-    public void transformarParaPessoaBemInformada(Pessoa pessoa){
+    public void transformarParaPessoaBemInformada(Pessoa pessoa, RealNews novaRealNewsCompartilhada){
         //Usa um construtor de copia para copiar a pessoa de uma certa classe para a pessoa Bem Informada
         int indicePessoa = pessoasDoMundo.indexOf(pessoa);
-        PessoaBemInformada pessoaBemInformada = new PessoaBemInformada(pessoa);
+        PessoaBemInformada pessoaBemInformada = new PessoaBemInformada(pessoa,novaRealNewsCompartilhada);
         pessoasDoMundo.set(indicePessoa,pessoaBemInformada);
  
     }
@@ -444,7 +448,9 @@ public class Mundo {
         //O envio só acontece se a pessoa que entrou em contato não está imuene
         
         if((pessoaSabia instanceof PessoaImune) == false){
-
+            //Cria a fakenews que será compartilhada
+            RealNews novaRealNewsCompartilhada = new RealNews();
+            
             ArrayList<String> contatosPessoaInfectada = pessoaSabia.getContatos();
 
             for (String contatoRegistrado:contatosPessoaInfectada){
@@ -460,11 +466,14 @@ public class Mundo {
                             continue;
                         }
 
-                        transformarParaPessoaBemInformada(possivelContato);
+                        transformarParaPessoaBemInformada(possivelContato,novaRealNewsCompartilhada);
                     }
                 }  
             }
-            transformarParaPessoaBemInformada(pessoaSabia);
+            //finalmente transforma a pessoa que entrou em contato em bemInformada
+            transformarParaPessoaBemInformada(pessoaSabia,novaRealNewsCompartilhada);
+            //Define a quantidade de RealNews enviadas com base na ultima realNews envidada.
+            this.quantidadeRealNewsCompartilhadas = novaRealNewsCompartilhada.getNumeroRealNews();
         }
     }
     
@@ -509,7 +518,7 @@ public class Mundo {
         
         if (tempoRestante <= 0.0){
             //Se o tempo acabar, ela volta para a posicao original
-            transformarParaPessoaBemInformada(pessoa);
+            transformarParaPessoaBemInformada(pessoa,null);
         }
         else{
             //Atualiza o tempo restante de imunizacao -> -0.5 porque a iteracao ocorre a cada 0.5 segundos
