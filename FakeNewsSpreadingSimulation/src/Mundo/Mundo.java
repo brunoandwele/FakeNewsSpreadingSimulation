@@ -359,6 +359,10 @@ public class Mundo {
         //Verifica encontro com as estruturas do mundo
         //Para isso, ele analisa as cores da matriz do mundo
         
+        //31 -> IA geradora de fakeNews
+        //32 -> IA destruidora de fakeNews
+        //33 -> Fonte de informacao confiavel
+        
         int coordenadasX = pessoa.getCoordenadaAtualX();
         int coordenadasY = pessoa.getCoordenadaAtualY();
         
@@ -502,7 +506,7 @@ public class Mundo {
             transformarParaPessoaBemInformada(pessoa);
         }
         else{
-            
+            //Atualiza o tempo restante de imunizacao -> -0.5 porque a iteracao ocorre a cada 0.5 segundos
             pessoa.setContadorDeImunizacao(tempoRestante-0.5);
         }
         

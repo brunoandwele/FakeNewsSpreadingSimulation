@@ -13,7 +13,7 @@ import Pessoa.Pessoa;
  */
 public class PessoaMalInformada extends Pessoa{
     
-    private  FakeNews fakeNewsRecebida;
+    private  FakeNews fakeNewsRecebida;//Atributo responsavel por agregar uma fakeNews compartilhada com a pessoa
     
     public PessoaMalInformada(Pessoa pessoa, FakeNews novaFakeNewsCompartilhada) {
         //Construtor de copia, para poder gerar um novo objeto a partir de um outro da classe Pessoa
@@ -27,7 +27,7 @@ public class PessoaMalInformada extends Pessoa{
         this.getContatos().addAll(pessoa.getContatos());
         
         this.setNumeroDaCor(21); // Define o número da cor para 21
-        this.fakeNewsRecebida = novaFakeNewsCompartilhada;
+        this.fakeNewsRecebida = novaFakeNewsCompartilhada;//Define o atributo agragando uma fakeNews recebida;
     }
     
     public PessoaMalInformada(){

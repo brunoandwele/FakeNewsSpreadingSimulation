@@ -9,6 +9,7 @@ package FakeNews;
  * @author bruno
  */
 public class FakeNews {
+    //Base para definir o numero da fakeNews compartilhada
     private static int baseNumeroFakeNews = 0;
     public int numeroFakeNews;
     
