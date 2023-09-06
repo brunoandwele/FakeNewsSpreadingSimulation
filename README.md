@@ -1,0 +1,1 @@
+During my third semester of the Computer Science bachelor's degree, students were tasked with developing a Java project to simulate how fake news spreads faster than "real" news within a population. In this project, Object-Oriented Programming principles were extensively applied, making use of a significant amount of abstraction, encapsulation, polymorphism, and inheritance
